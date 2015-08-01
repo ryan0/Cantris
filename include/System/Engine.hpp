@@ -15,11 +15,11 @@ public:
     Engine();
     void run();
     void stop();
-    void setState(std::unique_ptr<EngineState> newState);
+    void setState(engineState_ptr newState);
 
 private:
     sf::RenderWindow window;
-    std::unique_ptr<EngineState> state;
+    engineState_ptr state;
     bool running;
 };
 

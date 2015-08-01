@@ -5,8 +5,8 @@
 #ifndef RAINSFORD_STARTMENU_HPP
 #define RAINSFORD_STARTMENU_HPP
 
-#include "EngineState.hpp"
-#include "Engine.hpp"
+#include "System/EngineState.hpp"
+#include "System/Engine.hpp"
 
 class StartMenu : public EngineState {
 public:
@@ -16,8 +16,7 @@ public:
     virtual void cleanup() override;
 
 private:
-
+    Engine* engineRef;
 };
-
 
 #endif //RAINSFORD_STARTMENU_HPP

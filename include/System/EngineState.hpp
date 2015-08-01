@@ -6,6 +6,7 @@
 #define RAINSFORD_ENGINESTATE_HPP
 
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 class Engine;
 class EngineState {
@@ -19,5 +20,6 @@ public:
     virtual ~EngineState() {}
 };
 
+typedef std::unique_ptr<EngineState> engineState_ptr;
 
 #endif //RAINSFORD_ENGINESTATE_HPP

@@ -2,8 +2,7 @@
 // Created by Ryan on 7/30/2015.
 //
 
-#include "Engine/Engine.hpp"
-
+#include "System/Engine.hpp"
 
 Engine::Engine() {
     window.create(sf::VideoMode(800, 600), "Rainsford");
@@ -34,7 +33,7 @@ void Engine::stop() {
 }
 
 
-void Engine::setState(std::unique_ptr<EngineState> newState) {
+void Engine::setState(engineState_ptr newState) {
     if(state) {
         state->cleanup();
     }
