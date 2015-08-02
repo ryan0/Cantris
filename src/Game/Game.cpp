@@ -12,8 +12,8 @@ void Game::render(sf::RenderTarget &target) {
 
 }
 
-void Game::initialize(Engine &engine) {
-
+void Game::initialize(Engine &engine, GameWindow& gameWindow) {
+    engineRef = &engine;
 }
 
 void Game::cleanup() {

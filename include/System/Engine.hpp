@@ -9,6 +9,7 @@
 #include <memory>
 
 #include "EngineState.hpp"
+#include "GameWindow.hpp"
 
 class Engine {
 public:
@@ -18,8 +19,8 @@ public:
     void setState(engineState_ptr newState);
 
 private:
-    sf::RenderWindow window;
     engineState_ptr state;
+    GameWindow gameWindow;
     bool running;
 };
 

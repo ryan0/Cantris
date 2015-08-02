@@ -5,7 +5,7 @@
 #include "System/Engine.hpp"
 
 Engine::Engine() {
-    window.create(sf::VideoMode(800, 600), "Rainsford");
+    gameWindow.create(sf::VideoMode(800, 600), "Rainsford");
 }
 
 void Engine::run() {
@@ -15,16 +15,16 @@ void Engine::run() {
 
     while(running)
     {
-        window.pollEvent(event);
+        gameWindow.pollEvent(event);
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             stop();
 
         if(state) {
             state->update(timer.restart().asSeconds());
-            state->render(window);
+            state->render(gameWindow);
         }
-        window.display();
-        window.clear();
+        gameWindow.display();
+        gameWindow.clear();
     }
 }
 
@@ -39,6 +39,6 @@ void Engine::setState(engineState_ptr newState) {
     }
     state = std::move(newState);
     if(state) {
-        state->initialize(*this);
+        state->initialize(*this, gameWindow);
     }
 }

@@ -12,7 +12,7 @@ class StartMenu : public EngineState {
 public:
     virtual void update(float tpf) override;
     virtual void render(sf::RenderTarget &target) override;
-    virtual void initialize(Engine &engine) override;
+    virtual void initialize(Engine& engine, GameWindow& gameWindow) override;
     virtual void cleanup() override;
 
 private:

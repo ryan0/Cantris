@@ -7,14 +7,17 @@
 
 #include <SFML/Graphics.hpp>
 #include <memory>
+#include "GameWindow.hpp"
 
+class GameWindow;
 class Engine;
+
 class EngineState {
 public:
     virtual void update(float tpf) = 0;
     virtual void render(sf::RenderTarget& target) = 0;
 
-    virtual void initialize(Engine& engine) = 0;
+    virtual void initialize(Engine& engine, GameWindow& gameWindow) = 0;
     virtual void cleanup() = 0;
 
     virtual ~EngineState() {}

@@ -20,7 +20,7 @@ void StartMenu::render(sf::RenderTarget &target) {
     target.draw(test);
 }
 
-void StartMenu::initialize(Engine &engine) {
+void StartMenu::initialize(Engine &engine, GameWindow& gameWindow) {
     engineRef = &engine;
 }
 
