@@ -8,7 +8,8 @@
 #include <SFML/Graphics.hpp>
 
 class GameWindow : public sf::RenderWindow {
-
+public:
+   void makeLetterBox(sf::Vector2f viewSize);
 };
 
 #endif //RAINSFORD_GAMEWINDOW_HPP

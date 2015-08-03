@@ -5,7 +5,7 @@
 #include "System/Engine.hpp"
 
 Engine::Engine() {
-    gameWindow.create(sf::VideoMode(800, 600), "Rainsford");
+    gameWindow.create(sf::VideoMode().getDesktopMode(), "Rainsford", sf::Style::Fullscreen);
 }
 
 void Engine::run() {
@@ -20,6 +20,7 @@ void Engine::run() {
             stop();
 
         if(state) {
+            state->handleEvents(event);
             state->update(timer.restart().asSeconds());
             state->render(gameWindow);
         }
@@ -39,6 +40,6 @@ void Engine::setState(engineState_ptr newState) {
     }
     state = std::move(newState);
     if(state) {
-        state->initialize(*this, gameWindow);
+        state->initialize(*this, gameWindow, assetManager);
     }
 }

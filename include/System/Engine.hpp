@@ -10,6 +10,7 @@
 
 #include "EngineState.hpp"
 #include "GameWindow.hpp"
+#include "AssetManager.hpp"
 
 class Engine {
 public:
@@ -21,6 +22,7 @@ public:
 private:
     engineState_ptr state;
     GameWindow gameWindow;
+    AssetManager assetManager;
     bool running;
 };
 

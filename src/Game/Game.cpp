@@ -12,7 +12,11 @@ void Game::render(sf::RenderTarget &target) {
 
 }
 
-void Game::initialize(Engine &engine, GameWindow& gameWindow) {
+void Game::handleEvents(sf::Event &event) {
+
+}
+
+void Game::initialize(Engine &engine, GameWindow& gameWindow, AssetManager& assetManager) {
     engineRef = &engine;
 }
 

@@ -8,16 +8,19 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include "GameWindow.hpp"
+#include "AssetManager.hpp"
 
-class GameWindow;
 class Engine;
+class GameWindow;
+class AssetManager;
 
 class EngineState {
 public:
     virtual void update(float tpf) = 0;
     virtual void render(sf::RenderTarget& target) = 0;
+    virtual void handleEvents(sf::Event& event) = 0;
 
-    virtual void initialize(Engine& engine, GameWindow& gameWindow) = 0;
+    virtual void initialize(Engine& engine, GameWindow& gameWindow, AssetManager& assetManager) = 0;
     virtual void cleanup() = 0;
 
     virtual ~EngineState() {}
