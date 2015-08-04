@@ -16,8 +16,8 @@ void Game::handleEvents(sf::Event &event) {
 
 }
 
-void Game::initialize(Engine &engine, GameWindow& gameWindow, AssetManager& assetManager) {
-    engineRef = &engine;
+void Game::initialize(GameWindow& gameWindow, AssetManager& assetManager) {
+    gameWindowRef = &gameWindow;
 }
 
 void Game::cleanup() {

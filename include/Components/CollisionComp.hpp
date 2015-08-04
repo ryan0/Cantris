@@ -5,4 +5,10 @@
 #ifndef RAINSFORD_COLLISIONCOMP_HPP
 #define RAINSFORD_COLLISIONCOMP_HPP
 
+#include "Components/Component.hpp"
+
+class CollisionComp : public Component {
+
+};
+
 #endif //RAINSFORD_COLLISIONCOMP_HPP

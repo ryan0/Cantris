@@ -5,20 +5,19 @@
 #ifndef RAINSFORD_STARTMENU_HPP
 #define RAINSFORD_STARTMENU_HPP
 
-#include "System/EngineState.hpp"
-#include "System/Engine.hpp"
-#include "System/Animation/AnimatedSprite.hpp"
+#include "Core/GameWindow.hpp"
+#include "Core/WindowState.hpp"
+#include "Core/AnimatedSprite.hpp"
 
-class StartMenu : public EngineState {
+class StartMenu : public WindowState {
 public:
     virtual void update(float tpf) override;
     virtual void render(sf::RenderTarget &target) override;
     virtual void handleEvents(sf::Event &event);
-    virtual void initialize(Engine& engine, GameWindow& gameWindow, AssetManager& assetManager) override;
+    virtual void initialize(GameWindow& gameWindow, AssetManager& assetManager) override;
     virtual void cleanup() override;
 
 private:
-    Engine* engineRef;
     GameWindow* gameWindowRef;
     sf::Sprite background;
     float timeSinceSmoke;

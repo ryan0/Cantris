@@ -5,18 +5,18 @@
 #ifndef RAINSFORD_GAME_HPP
 #define RAINSFORD_GAME_HPP
 
-#include "System/EngineState.hpp"
+#include "Core/WindowState.hpp"
 
-class Game : public EngineState {
+class Game : public WindowState {
 public:
     virtual void update(float tpf) override;
     virtual void render(sf::RenderTarget &target) override;
     virtual void handleEvents(sf::Event &event);
-    virtual void initialize(Engine& engine, GameWindow& gameWindow, AssetManager& assetManager) override;
+    virtual void initialize(GameWindow& gameWindow, AssetManager& assetManager) override;
     virtual void cleanup() override;
 
 private:
-    Engine* engineRef;
+    GameWindow* gameWindowRef;
 };
 
 #endif //RAINSFORD_GAME_HPP

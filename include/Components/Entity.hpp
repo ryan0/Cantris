@@ -6,16 +6,16 @@
 #define RAINSFORD_ENTITY_HPP
 
 #include <SFML/Graphics.hpp>
+#include <vector>
+
+#include "Component.hpp"
 
 class Entity {
 public:
-    virtual void update(float tpf) = 0;
-    const sf::Vector2f& getPosition();
+    void addComponent(component_ptr newComponent);
 
-    virtual ~Entity() {}
-
-protected:
-    sf::Vector2f position;
+private:
+    std::vector<component_ptr> components;
 };
 
 #endif //RAINSFORD_ENTITY_HPP

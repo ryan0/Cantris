@@ -10,15 +10,14 @@
 
 class GraphicsComp : public Component, public sf::Drawable {
 public:
-    GraphicsComp(Entity& entity);
-    void setGraphic(sf::Drawable& newGraphic);
-    const sf::Drawable& getGraphic();
+    void setZValue(float newZValue);
+    float getZValue();
 
 protected:
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 private:
-    sf::Drawable* graphic;
+    float ZValue;
 };
 
 #endif //RAINSFORD_GRAPHICSCOMP_HPP

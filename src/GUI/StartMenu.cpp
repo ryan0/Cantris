@@ -32,11 +32,10 @@ void StartMenu::render(sf::RenderTarget &target) {
 
 void StartMenu::handleEvents(sf::Event &event) {
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
-        engineRef->setState(engineState_ptr(new Game()));
+        gameWindowRef->setState(windowState_ptr(new Game()));
 }
 
-void StartMenu::initialize(Engine &engine, GameWindow& gameWindow, AssetManager& assetManager) {
-    engineRef = &engine;
+void StartMenu::initialize(GameWindow& gameWindow, AssetManager& assetManager) {
     gameWindowRef = &gameWindow;
     assetManager.playSong("music/RainsfordTheme.ogg");
     background.setTexture(assetManager.getTexture("startMenu/titleScreen.png"));

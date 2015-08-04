@@ -4,6 +4,6 @@
 
 #include "Components/Component.hpp"
 
-Component::Component(Entity &entity) : ownerRef(entity){
-
+void Component::setOwner(Entity* newOwner) {
+    owner = newOwner;
 }

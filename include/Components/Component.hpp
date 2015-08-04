@@ -5,14 +5,16 @@
 #ifndef RAINSFORD_COMPONENT_HPP
 #define RAINSFORD_COMPONENT_HPP
 
-#include "System/Entity.hpp"
+#include <memory>
 
+class Entity;
 class Component {
-public:
-    Component(Entity& entity);
-
+    friend class Entity;
 private:
-    Entity& ownerRef;
+    void setOwner(Entity* newOwner);
+    Entity* owner;
 };
+
+typedef std::unique_ptr<Component> component_ptr;
 
 #endif //RAINSFORD_COMPONENT_HPP

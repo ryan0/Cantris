@@ -7,25 +7,23 @@
 
 #include <SFML/Graphics.hpp>
 #include <memory>
-#include "GameWindow.hpp"
 #include "AssetManager.hpp"
 
-class Engine;
 class GameWindow;
 class AssetManager;
 
-class EngineState {
+class WindowState {
 public:
     virtual void update(float tpf) = 0;
     virtual void render(sf::RenderTarget& target) = 0;
     virtual void handleEvents(sf::Event& event) = 0;
 
-    virtual void initialize(Engine& engine, GameWindow& gameWindow, AssetManager& assetManager) = 0;
+    virtual void initialize(GameWindow& gameWindow, AssetManager& assetManager) = 0;
     virtual void cleanup() = 0;
 
-    virtual ~EngineState() {}
+    virtual ~WindowState() {}
 };
 
-typedef std::unique_ptr<EngineState> engineState_ptr;
+typedef std::unique_ptr<WindowState> windowState_ptr;
 
 #endif //RAINSFORD_ENGINESTATE_HPP

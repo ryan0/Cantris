@@ -2,7 +2,7 @@
 // Created by Ryan on 8/2/2015.
 //
 
-#include "System/AssetManager.hpp"
+#include "Core/AssetManager.hpp"
 #include <iostream>
 
 const sf::Texture &AssetManager::getTexture(std::string filename) {
