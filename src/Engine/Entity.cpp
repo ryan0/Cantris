@@ -2,7 +2,7 @@
 // Created by Ryan on 8/1/2015.
 //
 
-#include "Components/Entity.hpp"
+#include "Engine/Entity.hpp"
 
 
 void Entity::addComponent(component_ptr newComponent) {

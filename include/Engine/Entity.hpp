@@ -8,7 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-#include "Component.hpp"
+#include "Components/Component.hpp"
 
 class Entity {
 public:
