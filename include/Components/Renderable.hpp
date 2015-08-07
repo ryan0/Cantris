@@ -11,12 +11,16 @@
 #include "Components/Component.hpp"
 
 class Renderable : public Component {
+    friend class GraphicsSystem;
 public:
-    const sf::Drawable& getGraphic();
-    void setGraphic(std::shared_ptr<sf::Drawable> newGraphic);
+    void setZValue(float newZValue);
+    float getZValue();
 
 private:
-    std::shared_ptr<sf::Drawable> graphic;
+    void setDrawable(sf::Drawable* newDrawable);
+    sf::Drawable* getDrawable();
+    sf::Drawable* drawableRef;
+    float ZValue;
 };
 
 #endif //RAINSFORD_GRAPHICSCOMP_HPP

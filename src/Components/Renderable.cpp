@@ -4,10 +4,18 @@
 
 #include "Components/Renderable.hpp"
 
-const sf::Drawable& Renderable::getGraphic() {
-    return *graphic;
+float Renderable::getZValue() {
+    return ZValue;
 }
 
-void Renderable::setGraphic(std::shared_ptr<sf::Drawable> newGraphic) {
-    graphic = newGraphic;
+void Renderable::setZValue(float newZValue) {
+    ZValue = newZValue;
+}
+
+sf::Drawable* Renderable::getDrawable() {
+    return drawableRef;
+}
+
+void Renderable::setDrawable(sf::Drawable* newDrawable) {
+    drawableRef = newDrawable;
 }

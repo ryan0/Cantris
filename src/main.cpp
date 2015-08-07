@@ -3,7 +3,7 @@
 
 int main() {
     GameWindow gameWindow;
-    gameWindow.create(sf::VideoMode(600, 800), "Rainsford");
+    gameWindow.create(sf::VideoMode::getDesktopMode(), "Rainsford", sf::Style::Fullscreen);
 
     gameWindow.setState(windowState_ptr(new StartMenu));
     gameWindow.run();

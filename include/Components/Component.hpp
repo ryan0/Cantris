@@ -7,14 +7,9 @@
 
 #include <memory>
 
-enum Component_ID {
-
-};
-
 class Entity;
 class Component {
     friend class Entity;
-
 public:
     virtual ~Component();
 

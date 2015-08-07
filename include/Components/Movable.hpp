@@ -9,7 +9,7 @@
 
 #include "Components/Component.hpp"
 
-class Movement : public Component {
+class Movable : public Component {
 public:
     void setVelocity(sf::Vector2f newVelocity);
     sf::Vector2f getVelocity();

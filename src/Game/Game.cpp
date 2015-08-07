@@ -4,9 +4,11 @@
 
 #include "Game/Game.hpp"
 #include "Core/GameWindow.hpp"
+#include "Core/AnimatedSprite.hpp"
+#include "Components/Animated.hpp"
 #include "Components/Renderable.hpp"
 #include "Components/Spatial.hpp"
-#include "Core/AnimatedSprite.hpp"
+#include "Components/Movable.hpp"
 
 void Game::update(float tpf) {
     gameEngine.update(tpf);
@@ -25,16 +27,20 @@ void Game::initialize(GameWindow& gameWindow, AssetManager& assetManager) {
     gameWindowRef = &gameWindow;
 
     std::unique_ptr<Entity> test(new Entity());
+    std::unique_ptr<Animated> testAnimated(new Animated());
     std::unique_ptr<Renderable> testRender(new Renderable());
     std::unique_ptr<Spatial> testSpatial(new Spatial());
+    std::unique_ptr<Movable> testMovable(new Movable());
 
-    std::shared_ptr<AnimatedSprite> animated(new AnimatedSprite());
-    animated->setAnimation(assetManager.getAnimation("startMenu/fire.ani"));
-    animated->play();
+    testAnimated->setAnimation(assetManager.getAnimation("startMenu/fire.ani"));
+    testAnimated->play();
+    testSpatial->move(50, 50);
+    testMovable->setVelocity(sf::Vector2f(10, 0));
 
-    testRender->setGraphic(animated);
+    test->addComponent(std::move(testAnimated));
     test->addComponent(std::move(testRender));
     test->addComponent(std::move(testSpatial));
+    test->addComponent(std::move(testMovable));
     gameEngine.addEntity(std::move(test));
 }
 

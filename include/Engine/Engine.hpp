@@ -9,6 +9,7 @@
 #include <memory>
 
 #include "Systems/GraphicsSystem.hpp"
+#include "Systems/MovementSystem.hpp"
 #include "Systems/CollisionSystem.hpp"
 #include "Systems/PhysicsSystem.hpp"
 #include "Entity.hpp"
@@ -22,6 +23,8 @@ public:
 private:
     std::vector<std::unique_ptr<Entity>> entities;
     GraphicsSystem graphicsSystem;
+    MovementSystem movementSystem;
+
 };
 
 #endif //RAINSFORD_ENGINE_HPP
