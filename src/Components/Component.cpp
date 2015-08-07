@@ -7,3 +7,5 @@
 void Component::setOwner(Entity* newOwner) {
     owner = newOwner;
 }
+
+Component::~Component() {}

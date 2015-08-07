@@ -9,16 +9,12 @@
 
 #include "Components/Component.hpp"
 
-class PhysicsComp : public Component {
+class Movement : public Component {
 public:
-    void setPosition(sf::Vector2f newPosition);
-    sf::Vector2f getPosition();
-
     void setVelocity(sf::Vector2f newVelocity);
     sf::Vector2f getVelocity();
 
 private:
-    sf::Vector2f position;
     sf::Vector2f velocity;
 };
 

@@ -6,6 +6,7 @@
 #define RAINSFORD_GAME_HPP
 
 #include "Core/WindowState.hpp"
+#include "Engine/Engine.hpp"
 
 class Game : public WindowState {
 public:
@@ -17,6 +18,7 @@ public:
 
 private:
     GameWindow* gameWindowRef;
+    Engine gameEngine;
 };
 
 #endif //RAINSFORD_GAME_HPP

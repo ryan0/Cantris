@@ -6,16 +6,35 @@
 #define RAINSFORD_ENTITY_HPP
 
 #include <SFML/Graphics.hpp>
-#include <vector>
+#include <unordered_map>
+#include <typeindex>
 
 #include "Components/Component.hpp"
+#include "Messages/Message.hpp"
 
 class Entity {
 public:
     void addComponent(component_ptr newComponent);
+    template <typename T> bool hasComponent();
+    template <typename T> T* getComponent();
 
 private:
-    std::vector<component_ptr> components;
+    std::unordered_map<std::type_index, component_ptr> components;
 };
 
+
+template<typename T> bool Entity::hasComponent() {
+    std::type_index index(typeid(T));
+    return components.find(index) != components.end();
+}
+
+template<typename T> T* Entity::getComponent() {
+    std::type_index index(typeid(T));
+    if(hasComponent<T>()) {
+        return static_cast<T*>(components[index].get());
+    }
+    else {
+        return nullptr;
+    }
+}
 #endif //RAINSFORD_ENTITY_HPP

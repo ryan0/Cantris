@@ -8,10 +8,12 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-#include "Components/GraphicsComp.hpp"
+#include "System.hpp"
+#include "Engine/Entity.hpp"
 
-class GraphicsSystem : public sf::View, public sf::Drawable {
-
+class GraphicsSystem : System {
+public:
+    void render(sf::RenderTarget& renderTarget, std::vector<std::unique_ptr<Entity>>& entities);
 };
 
 #endif //RAINSFORD_CAMERA_HPP

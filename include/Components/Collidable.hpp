@@ -7,7 +7,7 @@
 
 #include "Components/Component.hpp"
 
-class CollisionComp : public Component {
+class Collidable : public Component {
 
 };
 

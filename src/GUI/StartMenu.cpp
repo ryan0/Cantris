@@ -46,26 +46,14 @@ void StartMenu::initialize(GameWindow& gameWindow, AssetManager& assetManager) {
     title.setCharacterSize(185);
     title.setPosition(550, 50);
 
-    rainsfordAnimation.setSpriteSheet(assetManager.getTexture("startMenu/startMenuSprites.png"));
-    for (int i = 0; i < 10; ++i) {
-        rainsfordAnimation.addFrame(sf::IntRect(16*i, 16, 16, 16));
-    }
-    for (int i = 9; i > -1; --i) {
-        rainsfordAnimation.addFrame(sf::IntRect(16*i, 16, 16, 16));
-    }
-    rainsford.setAnimation(rainsfordAnimation);
+    rainsford.setAnimation(assetManager.getAnimation("startMenu/rainsford.ani"));
     rainsford.setPosition(170, 95);
     rainsford.setLooped(false);
     rainsford.play();
 
-
-    fireAnimation.setSpriteSheet(assetManager.getTexture("startMenu/startMenuSprites.png"));
-    for (int i = 0; i < 10; ++i) {
-        fireAnimation.addFrame(sf::IntRect(16*i, 0, 16, 16));
-    }
-    fire.setAnimation(fireAnimation);
-    fire.play();
+    fire.setAnimation(assetManager.getAnimation("startMenu/fire.ani"));
     fire.setPosition(155, 95);
+    fire.play();
 }
 
 void StartMenu::cleanup() {

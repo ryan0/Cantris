@@ -7,5 +7,6 @@
 
 void Entity::addComponent(component_ptr newComponent) {
     newComponent->setOwner(this);
-    components.push_back(std::move(newComponent));
+    std::type_index index(typeid(*newComponent.get()));
+    components[index] = std::move(newComponent);
 }

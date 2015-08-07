@@ -7,9 +7,17 @@
 
 #include <memory>
 
+enum Component_ID {
+
+};
+
 class Entity;
 class Component {
     friend class Entity;
+
+public:
+    virtual ~Component();
+
 private:
     void setOwner(Entity* newOwner);
     Entity* owner;

@@ -6,18 +6,17 @@
 #define RAINSFORD_GRAPHICSCOMP_HPP
 
 #include <SFML/Graphics.hpp>
+#include <memory>
+
 #include "Components/Component.hpp"
 
-class GraphicsComp : public Component, public sf::Drawable {
+class Renderable : public Component {
 public:
-    void setZValue(float newZValue);
-    float getZValue();
-
-protected:
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    const sf::Drawable& getGraphic();
+    void setGraphic(std::shared_ptr<sf::Drawable> newGraphic);
 
 private:
-    float ZValue;
+    std::shared_ptr<sf::Drawable> graphic;
 };
 
 #endif //RAINSFORD_GRAPHICSCOMP_HPP
