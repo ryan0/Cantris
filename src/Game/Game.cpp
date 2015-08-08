@@ -9,6 +9,7 @@
 #include "Components/Renderable.hpp"
 #include "Components/Spatial.hpp"
 #include "Components/Movable.hpp"
+#include "Engine/EntityLoader.hpp"
 
 void Game::update(float tpf) {
     gameEngine.update(tpf);
@@ -25,23 +26,10 @@ void Game::handleEvents(sf::Event &event) {
 
 void Game::initialize(GameWindow& gameWindow, AssetManager& assetManager) {
     gameWindowRef = &gameWindow;
+    EntityLoader entityLoader(assetManager);
 
-    std::unique_ptr<Entity> test(new Entity());
-    std::unique_ptr<Animated> testAnimated(new Animated());
-    std::unique_ptr<Renderable> testRender(new Renderable());
-    std::unique_ptr<Spatial> testSpatial(new Spatial());
-    std::unique_ptr<Movable> testMovable(new Movable());
+    gameEngine.addEntity(entityLoader.loadEntity("test.dat"));
 
-    testAnimated->setAnimation(assetManager.getAnimation("startMenu/fire.ani"));
-    testAnimated->play();
-    testSpatial->move(50, 50);
-    testMovable->setVelocity(sf::Vector2f(10, 0));
-
-    test->addComponent(std::move(testAnimated));
-    test->addComponent(std::move(testRender));
-    test->addComponent(std::move(testSpatial));
-    test->addComponent(std::move(testMovable));
-    gameEngine.addEntity(std::move(test));
 }
 
 void Game::cleanup() {

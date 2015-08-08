@@ -1,0 +1,11 @@
+include "testInclude.dat"
+
+Spatial
+{
+    positionY = 100;
+    positionX = 10;
+}
+
+Animated {
+    animation = "startMenu/fire.ani"
+}
