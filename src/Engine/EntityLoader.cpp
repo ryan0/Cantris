@@ -19,6 +19,9 @@ EntityLoader::EntityLoader(AssetManager& assetManager)
     scriptMap.insert(std::make_pair("Animated", &EntityLoader::readAnimated));
     scriptMap.insert(std::make_pair("Spatial", &EntityLoader::readSpatial));
     scriptMap.insert(std::make_pair("Movable", &EntityLoader::readMovable));
+
+    specialChars = {' ', '\n', '{', '}', '=', '\"', ';'};
+    clearChars = {'{', '}', '=', ';', ','};
 }
 
 std::unique_ptr<Entity> EntityLoader::loadEntity(std::string filename) {
@@ -32,18 +35,11 @@ std::unique_ptr<Entity> EntityLoader::loadEntity(std::string filename) {
         filesToRead.pop();
 
         if (fileReader.is_open()) {
-            std::string keyword;
-            while (true) {
-                char c; fileReader.get(c);
-                if(fileReader.eof()) break;
-
-                if (c == ' ' || c == '\n') { }
-                else if (keyword == "include") {
-                    if(c == '\"') fileReader.unget();
+            while (readNextChar()) {
+                if (currentChar == '=' && keyword == "include") {
                     filesToRead.push(readString());
-                    keyword = "";
                 }
-                else if (c == '{') {
+                else if (currentChar == '{') {
                     std::cout <<keyword<<std::endl;
                     compScriptMap::const_iterator it = scriptMap.find(keyword);
                     if (it == scriptMap.end()) {
@@ -53,10 +49,6 @@ std::unique_ptr<Entity> EntityLoader::loadEntity(std::string filename) {
                         readCompScript func = it->second;
                         entity->addComponent((this->*func)());
                     }
-                    keyword = "";
-                }
-                else {
-                    keyword += c;
                 }
             }
             fileReader.close();
@@ -68,15 +60,36 @@ std::unique_ptr<Entity> EntityLoader::loadEntity(std::string filename) {
     return std::move(entity);
 }
 
-float EntityLoader::readFloat() {
-    std::string theString;
-    char c; fileReader.get(c);
-    while(c != ';' && !fileReader.eof()) {
-        theString += c;
-        fileReader.get(c);
+bool EntityLoader::readNextChar() {
+    if (std::find(clearChars.begin(), clearChars.end(), currentChar) != clearChars.end()) {
+        keyword = "";
     }
-    float f = (float)std::atof(theString.c_str());
+    fileReader.get(currentChar);
+    if(fileReader.eof()) {
+        return false;
+    }
+    if (std::find(specialChars.begin(), specialChars.end(), currentChar) == specialChars.end()) {
+        keyword += currentChar;
+    }
+    return true;
+}
+
+float EntityLoader::readFloat() {
+    while(readNextChar() && currentChar != ';') {}
+    float f = (float)std::atof(keyword.c_str());
     return f;
+}
+
+
+sf::Vector2f EntityLoader::readVector2f() {
+    float x, y;
+    while(readNextChar() && currentChar != ';') {
+        if(currentChar == ',') {
+            x = (float)std::atof(keyword.c_str());
+        }
+    }
+    y = (float)std::atof(keyword.c_str());
+    return sf::Vector2f(x, y);
 }
 
 std::string EntityLoader::readString() {
@@ -95,57 +108,38 @@ std::string EntityLoader::readString() {
 
 component_ptr EntityLoader::readRenderable() {
     std::unique_ptr<Renderable> renderable(new Renderable());
-    std::string keyword;
-    char c; fileReader.get(c);
-    while(c != '}' && !fileReader.eof()) {
-        if (c == ' ' || c == '\n') { }
-        else if(c == '=') {
+    while(readNextChar() && currentChar != '}') {
+        if(currentChar == '=') {
             if(keyword == "zValue") {
                 renderable->setZValue(readFloat());
             }
             else {
                 std::cout <<keyword<<" not recognized"<<std::endl;
             }
-            keyword = "";
         }
-        else {
-            keyword += c;
-        }
-        fileReader.get(c);
     }
     return std::move(renderable);
 }
 
 component_ptr EntityLoader::readGraphical() {
     std::unique_ptr<Graphical> graphical(new Graphical());
-    std::string keyword;
-    char c; fileReader.get(c);
-    while(c != '}' && !fileReader.eof()) {
-        if (c == ' ' || c == '\n') { }
-        else if(c == '=') {
+    while(readNextChar() && currentChar != '}') {
+        if(currentChar == '=') {
             if(keyword == "texture") {
                 graphical->setTexture(assetManagerRef.getTexture(readString()));
             }
             else {
                 std::cout <<keyword<<" not recognized"<<std::endl;
             }
-            keyword = "";
         }
-        else {
-            keyword += c;
-        }
-        fileReader.get(c);
     }
     return std::move(graphical);
 }
 
 component_ptr EntityLoader::readAnimated() {
     std::unique_ptr<Animated> animated(new Animated());
-    std::string keyword;
-    char c; fileReader.get(c);
-    while(c != '}' && !fileReader.eof()) {
-        if (c == ' ' || c == '\n') { }
-        else if(c == '=') {
+    while(readNextChar() && currentChar != '}') {
+        if(currentChar == '=') {
             if(keyword == "animation") {
                 animated->setAnimation(assetManagerRef.getAnimation(readString()));
             }
@@ -155,64 +149,37 @@ component_ptr EntityLoader::readAnimated() {
             else {
                 std::cout <<keyword<<" not recognized"<<std::endl;
             }
-            keyword = "";
         }
-        else {
-            keyword += c;
-        }
-        fileReader.get(c);
     }
     return std::move(animated);
 }
 
 component_ptr EntityLoader::readSpatial() {
     std::unique_ptr<Spatial> spatial(new Spatial());
-    std::string keyword;
-    char c; fileReader.get(c);
-    while(c != '}' && !fileReader.eof()) {
-        if (c == ' ' || c == '\n') { }
-        else if(c == '=') {
-            if(keyword == "positionX") {
-                spatial->setPosition(readFloat(), spatial->getPosition().y);
-            }
-            else if(keyword == "positionY") {
-                spatial->setPosition(spatial->getPosition().x, readFloat());
+    while(readNextChar() && currentChar != '}') {
+        if(currentChar == '=') {
+            if(keyword == "position") {
+                spatial->setPosition(readVector2f());
             }
             else {
                 std::cout <<keyword<<" not recognized"<<std::endl;
             }
-            keyword = "";
         }
-        else {
-            keyword += c;
-        }
-        fileReader.get(c);
     }
     return std::move(spatial);
 }
 
 component_ptr EntityLoader::readMovable() {
     std::unique_ptr<Movable> movable(new Movable());
-    std::string keyword;
-    char c; fileReader.get(c);
-    while(c != '}' && !fileReader.eof()) {
-        if (c == ' ' || c == '\n') { }
-        else if(c == '=') {
-            if(keyword == "velocityX") {
-                movable->setVelocity(sf::Vector2f(readFloat(), movable->getVelocity().y));
-            }
-            else if(keyword == "velocityY") {
-                movable->setVelocity(sf::Vector2f(movable->getVelocity().x, readFloat()));
+    while(readNextChar() && currentChar != '}') {
+        if(currentChar == '=') {
+            if(keyword == "velocity") {
+                movable->setVelocity(readVector2f());
             }
             else {
                 std::cout <<keyword<<" not recognized"<<std::endl;
             }
-            keyword = "";
         }
-        else {
-            keyword += c;
-        }
-        fileReader.get(c);
     }
     return std::move(movable);
 }

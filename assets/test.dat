@@ -1,11 +1,15 @@
-include "testInclude.dat"
+include = "testInclude.dat";
 
 Spatial
 {
-    positionY = 100;
-    positionX = 10;
+    position = 50, 50;
 }
 
 Animated {
-    animation = "startMenu/fire.ani"
+    animation = "startMenu/rainsford.ani";
+    frameTime = .2;
+}
+
+Movable {
+    velocity = 6, -9;
 }

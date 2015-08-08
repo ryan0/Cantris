@@ -9,6 +9,7 @@
 #include <fstream>
 #include <memory>
 #include <string>
+#include <memory>
 #include <map>
 #include "Entity.hpp"
 #include "Components/Component.hpp"
@@ -23,11 +24,18 @@ public:
 private:
     typedef component_ptr (EntityLoader::*readCompScript) ();
     typedef std::map<std::string, readCompScript> compScriptMap;
-    std::ifstream fileReader;
-    compScriptMap scriptMap;
+    std::vector<char> specialChars;
+    std::vector<char> clearChars;
     AssetManager& assetManagerRef;
+    compScriptMap scriptMap;
+    std::ifstream fileReader;
+    std::string unfinishedWord;
+    std::string keyword;
+    char currentChar;
 
+    bool readNextChar();
     float readFloat();
+    sf::Vector2f readVector2f();
     std::string readString();
 
     component_ptr readRenderable();
