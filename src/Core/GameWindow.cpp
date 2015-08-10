@@ -3,6 +3,7 @@
 //
 
 #include "Core/GameWindow.hpp"
+#include <iostream>
 
 GameWindow::GameWindow() {
 
@@ -20,8 +21,9 @@ void GameWindow::run() {
             stop();
 
         if(state) {
+            float tpf = timer.restart().asSeconds();
             state->handleEvents(event);
-            state->update(timer.restart().asSeconds());
+            state->update(tpf);
             state->render(*this);
         }
         display();

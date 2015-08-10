@@ -16,7 +16,7 @@ void Game::update(float tpf) {
 }
 
 void Game::render(sf::RenderTarget &target) {
-    gameWindowRef->makeLetterBox(sf::Vector2f(200, 113));
+    gameWindowRef->makeLetterBox(sf::Vector2f(128, 72));
     gameEngine.render(target);
 }
 
@@ -28,7 +28,9 @@ void Game::initialize(GameWindow& gameWindow, AssetManager& assetManager) {
     gameWindowRef = &gameWindow;
     EntityLoader entityLoader(assetManager);
 
-    gameEngine.addEntity(entityLoader.loadEntity("test.dat"));
+    gameEngine.addEntity(entityLoader.loadEntity("rainsford.dat"));
+    gameEngine.addEntity(entityLoader.loadEntity("bottom.dat"));
+    gameEngine.addEntity(entityLoader.loadEntity("top.dat"));
 
 }
 

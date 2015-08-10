@@ -8,6 +8,7 @@
 #include "Components/Animated.hpp"
 #include "Components/Spatial.hpp"
 #include "Components/Movable.hpp"
+#include "Components/Physical.hpp"
 #include <stdlib.h>
 #include <queue>
 
@@ -19,6 +20,7 @@ EntityLoader::EntityLoader(AssetManager& assetManager)
     scriptMap.insert(std::make_pair("Animated", &EntityLoader::readAnimated));
     scriptMap.insert(std::make_pair("Spatial", &EntityLoader::readSpatial));
     scriptMap.insert(std::make_pair("Movable", &EntityLoader::readMovable));
+    scriptMap.insert(std::make_pair("Physical", &EntityLoader::readPhysical));
 
     specialChars = {' ', '\n', '{', '}', '=', '\"', ';'};
     clearChars = {'{', '}', '=', ';', ','};
@@ -182,4 +184,15 @@ component_ptr EntityLoader::readMovable() {
         }
     }
     return std::move(movable);
+}
+
+
+component_ptr EntityLoader::readPhysical() {
+    std::unique_ptr<Physical> physical(new Physical());
+    while(readNextChar() && currentChar != '}') {
+        if(currentChar == '=') {
+
+        }
+    }
+    return std::move(physical);
 }

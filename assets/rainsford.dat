@@ -1,0 +1,21 @@
+Renderable {
+    zValue = 0;
+}
+
+Spatial
+{
+    position = 50, 10;
+}
+
+Animated {
+    animation = "stand.ani";
+    frameTime = .2;
+}
+
+Movable {
+    velocity = 0, -10;
+}
+
+Physical {
+
+}

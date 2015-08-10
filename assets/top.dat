@@ -1,0 +1,12 @@
+Renderable {
+    zValue = 1;
+}
+
+Spatial
+{
+    position = 0, 0;
+}
+
+Graphical {
+    texture = "top.png"
+}

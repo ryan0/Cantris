@@ -12,6 +12,7 @@
 class Movable : public Component {
 public:
     void setVelocity(sf::Vector2f newVelocity);
+    void accelerate(sf::Vector2f acceleration);
     sf::Vector2f getVelocity();
 
 private:

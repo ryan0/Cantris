@@ -43,6 +43,7 @@ private:
     component_ptr readAnimated();
     component_ptr readSpatial();
     component_ptr readMovable();
+    component_ptr readPhysical();
 };
 
 #endif //RAINSFORD_ENTITYLOADER_HPP

@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include <unordered_map>
 #include <typeindex>
+#include <memory>
 
 #include "Components/Component.hpp"
 #include "Messages/Message.hpp"
@@ -17,6 +18,7 @@ public:
     void addComponent(component_ptr newComponent);
     template <typename T> bool hasComponent();
     template <typename T> T* getComponent();
+    template <typename T> void removeComponent();
 
 private:
     std::unordered_map<std::type_index, component_ptr> components;
@@ -37,4 +39,12 @@ template<typename T> T* Entity::getComponent() {
         return nullptr;
     }
 }
+
+template <typename T> void Entity::removeComponent() {
+    std::type_index index(typeid(T));
+    if(hasComponent<T>()) {
+        components.erase(index);
+    }
+}
+
 #endif //RAINSFORD_ENTITY_HPP
