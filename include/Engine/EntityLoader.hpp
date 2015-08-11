@@ -36,6 +36,8 @@ private:
     bool readNextChar();
     float readFloat();
     sf::Vector2f readVector2f();
+    sf::IntRect readIntRect();
+    sf::FloatRect readFloatRect();
     std::string readString();
 
     component_ptr readRenderable();
@@ -43,6 +45,7 @@ private:
     component_ptr readAnimated();
     component_ptr readSpatial();
     component_ptr readMovable();
+    component_ptr readCollidable();
     component_ptr readPhysical();
 };
 

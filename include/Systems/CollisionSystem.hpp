@@ -13,6 +13,7 @@ public:
     virtual void update(float tpf, std::vector<std::unique_ptr<Entity>> &entities) override;
 
 private:
+    void genCollided(Entity& entity, Entity& collided, sf::FloatRect intersection);
 };
 
 #endif //RAINSFORD_COLLISIONSPACE_HPP

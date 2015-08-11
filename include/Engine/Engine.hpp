@@ -24,6 +24,7 @@ private:
     std::vector<std::unique_ptr<Entity>> entities;
     GraphicsSystem graphicsSystem;
     MovementSystem movementSystem;
+    CollisionSystem collisionSystem;
     PhysicsSystem physicsSystem;
 
 };

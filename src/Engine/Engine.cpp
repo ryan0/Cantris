@@ -10,9 +10,10 @@ void Engine::addEntity(std::unique_ptr<Entity> newEntity) {
 }
 
 void Engine::update(float tpf) {
+    collisionSystem.update(tpf, entities);
+    physicsSystem.update(tpf, entities);
     movementSystem.update(tpf, entities);
     graphicsSystem.update(tpf, entities);
-    physicsSystem.update(tpf, entities);
 }
 
 void Engine::render(sf::RenderTarget &renderTarget) {

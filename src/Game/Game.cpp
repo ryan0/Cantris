@@ -28,9 +28,11 @@ void Game::initialize(GameWindow& gameWindow, AssetManager& assetManager) {
     gameWindowRef = &gameWindow;
     EntityLoader entityLoader(assetManager);
 
-    gameEngine.addEntity(entityLoader.loadEntity("rainsford.dat"));
-    gameEngine.addEntity(entityLoader.loadEntity("bottom.dat"));
-    gameEngine.addEntity(entityLoader.loadEntity("top.dat"));
+    gameEngine.addEntity(entityLoader.loadEntity("box1.dat"));
+    gameEngine.addEntity(entityLoader.loadEntity("box2.dat"));
+    gameEngine.addEntity(entityLoader.loadEntity("box3.dat"));
+    gameEngine.addEntity(entityLoader.loadEntity("floor.dat"));
+    gameEngine.addEntity(entityLoader.loadEntity("wall.dat"));
 
 }
 

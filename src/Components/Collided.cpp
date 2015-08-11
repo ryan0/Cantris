@@ -11,7 +11,3 @@ const std::vector<collide_data> &Collided::getCollisions() {
 void Collided::addCollision(const collide_data &newCollide) {
     collisions.push_back(newCollide);
 }
-
-void Collided::setCollisions(std::vector<collide_data> &collisionData) {
-    collisions = collisionData;
-}

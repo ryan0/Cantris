@@ -4,20 +4,12 @@
 
 #include "Components/Physical.hpp"
 
-void Physical::setStatic(bool isStatic) {
-    staticObj = isStatic;
+void Physical::setElasticity(float newRestitude) {
+    elasticity = newRestitude;
 }
 
-bool Physical::isStatic() {
-    return staticObj;
-}
-
-void Physical::setRestitude(float newRestitude) {
-    restitude = newRestitude;
-}
-
-float Physical::getRestitude() {
-    return restitude;
+float Physical::getElasticity() {
+    return elasticity;
 }
 
 void Physical::setMass(float newMass) {

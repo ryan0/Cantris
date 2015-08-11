@@ -5,6 +5,7 @@
 #ifndef RAINSFORD_PHYSICSSPACE_HPP
 #define RAINSFORD_PHYSICSSPACE_HPP
 
+#include <Components/Collided.hpp>
 #include "System.hpp"
 
 class PhysicsSystem : public System {
@@ -13,6 +14,8 @@ public:
     virtual void update(float tpf, std::vector<std::unique_ptr<Entity>> &entities) override;
 
 private:
+    void handleCollide(Entity& entity, float tpf);
+
     sf::Vector2f gravity = sf::Vector2f(0, 100);
 };
 

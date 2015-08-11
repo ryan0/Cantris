@@ -12,10 +12,10 @@
 
 struct collide_data {
     sf::FloatRect bounds;
+    sf::FloatRect intersection;
     sf::Vector2f position;
     sf::Vector2f velocity;
-    bool staticObj;
-    float restitude;
+    float elasticity;
     float mass;
 };
 
@@ -23,7 +23,6 @@ class Collided : public Component {
 public:
     const std::vector<collide_data>& getCollisions();
     void addCollision(const collide_data& newCollide);
-    void setCollisions(std::vector<collide_data>& collisionData);
 
 private:
     std::vector<collide_data> collisions;

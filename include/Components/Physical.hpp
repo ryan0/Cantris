@@ -12,18 +12,14 @@
 
 class Physical : public Component {
 public:
-    void setStatic(bool isStatic);
-    bool isStatic();
-
-    void setRestitude(float newRestitude);
-    float getRestitude();
+    void setElasticity(float newRestitude);
+    float getElasticity();
 
     void setMass(float newMass);
     float getMass();
 
 private:
-    bool staticObj;
-    float restitude;
+    float elasticity;
     float mass;
 };
 
