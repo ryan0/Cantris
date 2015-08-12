@@ -38,58 +38,40 @@ void PhysicsSystem::handleCollide(Entity &entity, float tpf) {
     Physical* physicalRef = entity.getComponent<Physical>();
 
     for(const auto& collide : collidedRef->getCollisions()) {
-        sf::Vector2f center = sf::Vector2f(
-                collidableRef->getBounds().left + spatialRef->getPosition().x - (collidableRef->getBounds().width / 2.0f),
-                collidableRef->getBounds().top + spatialRef->getPosition().y - (collidableRef->getBounds().height / 2.0f));
+        if(collide.mass == 0 && movableRef) {
+            sf::Vector2f center = sf::Vector2f(
+                    collidableRef->getBounds().left + spatialRef->getPosition().x - (collidableRef->getBounds().width / 2.0f),
+                    collidableRef->getBounds().top + spatialRef->getPosition().y - (collidableRef->getBounds().height / 2.0f));
 
-        sf::Vector2f collideCenter = sf::Vector2f(
-                collide.bounds.left + collide.position.x - (collide.bounds.width / 2.0f),
-                collide.bounds.top + collide.position.y - (collide.bounds.height / 2.0f));
+            sf::Vector2f collideCenter = sf::Vector2f(
+                    collide.bounds.left + collide.position.x - (collide.bounds.width / 2.0f),
+                    collide.bounds.top + collide.position.y - (collide.bounds.height / 2.0f));
 
-
-        sf::Vector2f displacement;
-        bool VerticalCollide = false;
-
-        if(collide.intersection.width > collide.intersection.height) {
-            displacement.y = collide.intersection.height;
-            if(center.y < collideCenter.y) {
-                displacement.y *= -1;
-            }
-            VerticalCollide = true;
-        }
-        else {
-            displacement.x = collide.intersection.width;
-            if(center.x < collideCenter.x) {
-                displacement.x *= -1;
-            }
-        }
-
-        if(movableRef) {
-            spatialRef->setPosition(spatialRef->getPosition() + displacement);
-            sf::Vector2f velocity = movableRef->getVelocity();
+            float friction = std::fmax(1.0f - physicalRef->getFriction(), 1.0f - collide.friction);
             float elasticity = std::fmin(physicalRef->getElasticity(), collide.elasticity);
-            if(VerticalCollide) {
-                float newVel;
-                if(collide.mass != 0) {
-                    newVel = (((physicalRef->getMass() - collide.mass) * velocity.y) + (2.0f * collide.mass * collide.velocity.y * elasticity))
-                             / (physicalRef->getMass() + collide.mass);
+            sf::Vector2f velocity(movableRef->getVelocity());
+            sf::Vector2f displacement;
+
+            if(collide.intersection.width > collide.intersection.height) {
+                displacement.y = collide.intersection.height;
+                velocity.y = std::abs(velocity.y) * elasticity;
+                if(center.y < collideCenter.y) {
+                    displacement.y *= -1.0f;
+                    velocity.y *= -1.0f;
                 }
-                else {
-                    newVel = velocity.y * -1 * elasticity;
-                }
-                movableRef->setVelocity(sf::Vector2f(velocity.x, newVel));
+                velocity.x *= friction;
             }
             else {
-                float newVel;
-                if(collide.mass != 0) {
-                    newVel = (((physicalRef->getMass() - collide.mass) * velocity.x) + (2.0f * collide.mass * collide.velocity.x * elasticity))
-                             / (physicalRef->getMass() + collide.mass);
+                displacement.x = collide.intersection.width;
+                velocity.x = std::abs(velocity.y) * elasticity;
+                if(center.x < collideCenter.x) {
+                    displacement.x *= -1;
+                    velocity.x *= -1.0f;
                 }
-                else {
-                    newVel = velocity.x * -1 * elasticity;
-                }
-                movableRef->setVelocity(sf::Vector2f(newVel, velocity.y));
+                velocity.y *= friction;
             }
+            movableRef->setVelocity(velocity);
+            spatialRef->move(displacement);
         }
     }
 }

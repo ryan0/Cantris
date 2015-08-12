@@ -16,6 +16,7 @@ struct collide_data {
     sf::Vector2f position;
     sf::Vector2f velocity;
     float elasticity;
+    float friction;
     float mass;
 };
 

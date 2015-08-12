@@ -59,3 +59,16 @@ void GameWindow::makeLetterBox(sf::Vector2f viewSize) {
     }
     setView(camera);
 }
+
+void GameWindow::makeLetterBox(sf::View& view) {
+    float resRatio = (float)getSize().x / (float)getSize().y;
+    float viewRatio = view.getSize().x / view.getSize().y;
+
+    if(resRatio > viewRatio) {
+        view.setViewport(sf::FloatRect((1.0f - viewRatio / resRatio) * .5f, 0.0f, viewRatio / resRatio, 1.0f));
+    }
+    else {
+        view.setViewport(sf::FloatRect(0.0f, (1.0f - resRatio / viewRatio) * .5f, 1.0f, resRatio / viewRatio));
+    }
+    setView(view);
+}

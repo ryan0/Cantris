@@ -18,5 +18,6 @@ Collidable {
 
 Physical {
     mass = 0;
+    friction = .01;
     restitude = .5;
 }

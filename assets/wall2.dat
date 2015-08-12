@@ -4,20 +4,20 @@ Renderable {
 
 Graphical {
     texture = "wood.png";
-    textureRect = 0, 0, 100, 8;
+    textureRect = 0, 0, 8, 40;
 }
 
 Spatial
 {
-    position = 15, 60;
+    position = 115, 20;
 }
 
 Collidable {
-    bounds = 0, 0, 100, 8;
+    bounds = 0, 0, 8, 40;
 }
 
 Physical {
     mass = 0;
-    friction = .001;
-    restitude = .8;
+    friction = .01;
+    restitude = .5;
 }

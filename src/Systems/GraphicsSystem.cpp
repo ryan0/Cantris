@@ -2,6 +2,7 @@
 // Created by Ryan on 8/3/2015.
 //
 
+#include "Engine/Entity.hpp"
 #include "Systems/GraphicsSystem.hpp"
 #include "Components/Renderable.hpp"
 #include "Components/Graphical.hpp"

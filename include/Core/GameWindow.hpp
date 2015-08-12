@@ -19,6 +19,7 @@ public:
     void stop();
     void setState(windowState_ptr newState);
     void makeLetterBox(sf::Vector2f viewSize);
+    void makeLetterBox(sf::View& view);
 
 private:
     windowState_ptr state;

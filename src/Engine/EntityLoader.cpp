@@ -16,6 +16,7 @@ EntityLoader::EntityLoader(AssetManager& assetManager)
     scriptMap.insert(std::make_pair("Movable", &EntityLoader::readMovable));
     scriptMap.insert(std::make_pair("Collidable", &EntityLoader::readCollidable));
     scriptMap.insert(std::make_pair("Physical", &EntityLoader::readPhysical));
+    scriptMap.insert(std::make_pair("PlayerControlled", &EntityLoader::readPlayerControlled));
 
     specialChars = {' ', '\n', '{', '}', '=', '\"', ';'};
     clearChars = {'{', '}', '=', ';', ','};

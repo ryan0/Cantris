@@ -61,6 +61,7 @@ void CollisionSystem::genCollided(Entity &entity, Entity &collided, sf::FloatRec
     collision.intersection = intersection;
     collision.position = collidedSpatial->getPosition();
     collision.elasticity = collidedPhysical->getElasticity();
+    collision.friction = collidedPhysical->getFriction();
     collision.mass = collidedPhysical->getMass();
     if(collidedMovable) {
         collision.velocity = collidedMovable->getVelocity();

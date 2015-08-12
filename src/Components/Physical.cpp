@@ -12,6 +12,14 @@ float Physical::getElasticity() {
     return elasticity;
 }
 
+void Physical::setFriction(float newFriction) {
+    friction = newFriction;
+}
+
+float Physical::getFriction() {
+    return friction;
+}
+
 void Physical::setMass(float newMass) {
     mass = newMass;
 }

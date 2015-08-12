@@ -15,11 +15,15 @@ public:
     void setElasticity(float newRestitude);
     float getElasticity();
 
+    void setFriction(float newFriction);
+    float getFriction();
+
     void setMass(float newMass);
     float getMass();
 
 private:
     float elasticity;
+    float friction;
     float mass;
 };
 

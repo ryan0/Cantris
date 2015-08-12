@@ -47,6 +47,7 @@ private:
     component_ptr readMovable();
     component_ptr readCollidable();
     component_ptr readPhysical();
+    component_ptr readPlayerControlled();
 };
 
 #endif //RAINSFORD_ENTITYLOADER_HPP

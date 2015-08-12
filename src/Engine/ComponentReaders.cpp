@@ -10,6 +10,7 @@
 #include "Components/Movable.hpp"
 #include "Components/Collidable.hpp"
 #include "Components/Physical.hpp"
+#include "Components/PlayerControlled.hpp"
 
 
 component_ptr EntityLoader::readRenderable() {
@@ -115,13 +116,27 @@ component_ptr EntityLoader::readPhysical() {
     std::unique_ptr<Physical> physical(new Physical());
     while(readNextChar() && currentChar != '}') {
         if(currentChar == '=') {
-            if(keyword == "mass") {
-                physical->setMass(readFloat());
-            }
-            else if(keyword == "restitude") {
+            if(keyword == "restitude") {
                 physical->setElasticity(readFloat());
+            }
+            else if(keyword == "friction") {
+                physical->setFriction(readFloat());
+            }
+            else if(keyword == "mass") {
+                physical->setMass(readFloat());
             }
         }
     }
     return std::move(physical);
+}
+
+
+component_ptr EntityLoader::readPlayerControlled() {
+    std::unique_ptr<PlayerControlled> control(new PlayerControlled());
+    while(readNextChar() && currentChar != '}') {
+        if(currentChar == '=') {
+
+        }
+    }
+    return std::move(control);
 }

@@ -5,7 +5,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "GUI/StartMenu.hpp"
-#include "Game/Game.hpp"
+#include "Engine/Engine.hpp"
 
 void StartMenu::update(float tpf) {
     rainsford.update(sf::seconds(tpf));
@@ -32,7 +32,7 @@ void StartMenu::render(sf::RenderTarget &target) {
 
 void StartMenu::handleEvents(sf::Event &event) {
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
-        gameWindowRef->setState(windowState_ptr(new Game()));
+        gameWindowRef->setState(windowState_ptr(new Engine()));
 }
 
 void StartMenu::initialize(GameWindow& gameWindow, AssetManager& assetManager) {
