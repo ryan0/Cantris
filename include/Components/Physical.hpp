@@ -6,25 +6,21 @@
 #define RAINSFORD_PHYSICAL_HPP
 
 #include <SFML/Graphics/Rect.hpp>
+#include <Box2D/Box2D.h>
+#include "selene.h"
 #include "Component.hpp"
-
+#include "Core/AssetManager.hpp"
 
 
 class Physical : public Component {
 public:
-    void setElasticity(float newRestitude);
-    float getElasticity();
-
-    void setFriction(float newFriction);
-    float getFriction();
-
-    void setMass(float newMass);
-    float getMass();
+    virtual void loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef, b2World& physicsSpace) override;
+    b2Body& getBodyRef();
 
 private:
-    float elasticity;
-    float friction;
-    float mass;
+    b2Body* b2BodyRef;
+    b2BodyDef loadLuaBodyDef(sel::Selector& luaData);
+    void createLuaFixture(sel::Selector& luaData);
 };
 
 #endif //RAINSFORD_PHYSICAL_HPP

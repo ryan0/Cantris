@@ -3,49 +3,36 @@
 //
 
 #include "Engine/Engine.hpp"
-#include "Engine/EntityLoader.hpp"
-
-void Engine::addEntity(std::unique_ptr<Entity> newEntity) {
-    graphicsSystem.onNewEntity(newEntity.get());
-    entities.push_back(std::move(newEntity));
-}
+#include "Engine/LuaEntityLoader.hpp"
 
 void Engine::update(float tpf) {
-    collisionSystem.update(tpf, entities);
-    physicsSystem.update(tpf, entities);
-    movementSystem.update(tpf, entities);
-    graphicsSystem.update(tpf, entities);
-    playerController.update(tpf, entities);
+    movementSystem.update(tpf, scene.getEntities());
+    graphicsSystem.update(tpf, scene.getEntities());
+    playerController.update(tpf, scene.getEntities());
 
-    camera.updatePosition(tpf);
+    physicsSystem.doPhysics(tpf, scene. getPhysicsSpace());
+    physicsSystem.update(tpf, scene.getEntities());
+
+    scene.getCamera().updatePosition(tpf);
 }
 
 void Engine::render(sf::RenderTarget &renderTarget) {
-    gameWindowRef->makeLetterBox(camera);
-    graphicsSystem.render(renderTarget);
+    gameWindowRef->makeLetterBox(scene.getCamera());
+    graphicsSystem.render(renderTarget, scene.getSceneGraph());
+    graphicsSystem.renderDebug();
 }
 
 
 void Engine::handleEvents(sf::Event &event) {
-
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+        gameWindowRef->setState(windowState_ptr(new Engine()));
 }
 
 void Engine::initialize(GameWindow &gameWindow, AssetManager &assetManager) {
     gameWindowRef = &gameWindow;
-    assetMangerRef = &assetManager;
-    EntityLoader entityLoader(*assetMangerRef);
-
-    std::unique_ptr<Entity> player = entityLoader.loadEntity("rainsford.dat");
-    camera.follow(*player);
-    camera.setSize(sf::Vector2f(128, 72));
-    gameWindowRef->makeLetterBox(camera);
-
-    addEntity(std::move(player));
-    addEntity(entityLoader.loadEntity("box1.dat"));
-    addEntity(entityLoader.loadEntity("box3.dat"));
-    addEntity(entityLoader.loadEntity("floor.dat"));
-    addEntity(entityLoader.loadEntity("wall1.dat"));
-    addEntity(entityLoader.loadEntity("wall2.dat"));
+    assetManagerRef = &assetManager;
+    scene = Scene(assetManager);
+    graphicsSystem.setDebugDraw(gameWindow, scene.getPhysicsSpace());
 }
 
 void Engine::cleanup() {

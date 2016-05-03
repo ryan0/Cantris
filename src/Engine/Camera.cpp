@@ -12,6 +12,6 @@ void Camera::follow(Entity &entity) {
 void Camera::updatePosition(float tpf) {
     if(entityRef) {
         Spatial* spatialRef = entityRef->getComponent<Spatial>();
-        setCenter(spatialRef->getPosition());
+        setCenter(spatialRef->getPosition().x, 36.0f);
     }
 }

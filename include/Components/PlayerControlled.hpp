@@ -7,7 +7,7 @@
 
 #include "Component.hpp"
 
-class PlayerControlled :public Component {
+class PlayerControlled : public Component {
 
 };
 

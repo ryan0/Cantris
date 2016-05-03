@@ -5,11 +5,11 @@
 #include "Components/Renderable.hpp"
 
 float Renderable::getZValue() {
-    return ZValue;
+    return zValue;
 }
 
 void Renderable::setZValue(float newZValue) {
-    ZValue = newZValue;
+    zValue = newZValue;
 }
 
 sf::Drawable* Renderable::getDrawable() {

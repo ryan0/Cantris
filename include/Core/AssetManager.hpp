@@ -7,6 +7,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <Box2D/Box2D.h>
 #include <unordered_map>
 #include <string>
 

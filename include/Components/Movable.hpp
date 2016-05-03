@@ -11,6 +11,7 @@
 
 class Movable : public Component {
 public:
+    virtual void loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef, b2World& physicsSpace) override;
     void setVelocity(sf::Vector2f newVelocity);
     void accelerate(sf::Vector2f acceleration);
     sf::Vector2f getVelocity();

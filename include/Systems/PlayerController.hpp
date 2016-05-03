@@ -9,7 +9,6 @@
 
 class PlayerController : public System {
 public:
-    virtual void onNewEntity(Entity *entityRef);
     virtual void update(float tpf, std::vector<std::unique_ptr<Entity>> &entities);
 };
 

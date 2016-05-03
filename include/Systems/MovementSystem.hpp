@@ -9,7 +9,6 @@
 
 class MovementSystem : public System {
 public:
-    virtual void onNewEntity(Entity *entityRef) override;
     virtual void update(float tpf, std::vector<std::unique_ptr<Entity>>& entities) override;
 };
 

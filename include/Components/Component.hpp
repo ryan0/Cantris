@@ -6,11 +6,14 @@
 #define RAINSFORD_COMPONENT_HPP
 
 #include <memory>
+#include "selene.h"
+#include "Core/AssetManager.hpp"
 
 class Entity;
 class Component {
     friend class Entity;
 public:
+    virtual void loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef, b2World& physicsSpace) {}
     virtual ~Component();
 
 private:

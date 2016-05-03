@@ -2,13 +2,11 @@
 // Created by Ryan on 8/7/2015.
 //
 
+#include <Components/Physical.hpp>
 #include "Systems/MovementSystem.hpp"
 #include "Components/Movable.hpp"
 #include "Components/Spatial.hpp"
-
-void MovementSystem::onNewEntity(Entity* entityRef) {
-
-}
+#include <iostream>
 
 void MovementSystem::update(float tpf, std::vector<std::unique_ptr<Entity>>& entities) {
     for(auto& e : entities) {

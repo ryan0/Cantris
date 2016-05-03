@@ -23,6 +23,15 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 find_package(SFML 2 REQUIRED system window graphics audio)
 include_directories(${SFML_INCLUDE_DIR})
 
+# Find the lua headers and library
+find_package(Lua REQUIRED)
+include_directories(${LUA_INCLUDE_DIR})
+
+# Find the Box2D headers and library
+find_package(Box2D)
+include_directories(${BOX2D_INCLUDE_DIR})
+
+
 # include the 'include' directory
 include_directories(${CMAKE_SOURCE_DIR}/include)
 

@@ -5,6 +5,7 @@
 #include "Core/AssetManager.hpp"
 #include <iostream>
 #include <fstream>
+#include "selene.h"
 
 const sf::Texture &AssetManager::getTexture(std::string filename) {
     filename = "../assets/" + filename;

@@ -10,7 +10,6 @@
 
 class System {
 public:
-    virtual void onNewEntity(Entity* entityRef) = 0;
     virtual void update(float tpf, std::vector<std::unique_ptr<Entity>>& entities) = 0;
     virtual ~System() {}
 };

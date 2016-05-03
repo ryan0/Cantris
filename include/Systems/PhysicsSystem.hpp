@@ -5,18 +5,17 @@
 #ifndef RAINSFORD_PHYSICSSPACE_HPP
 #define RAINSFORD_PHYSICSSPACE_HPP
 
-#include <Components/Collided.hpp>
+#include <Box2D/Box2D.h>
 #include "System.hpp"
 
 class PhysicsSystem : public System {
 public:
-    virtual void onNewEntity(Entity *entityRef) override;
     virtual void update(float tpf, std::vector<std::unique_ptr<Entity>> &entities) override;
+    void doPhysics(float tpf, b2World& physicsSpace);
 
 private:
-    void handleCollide(Entity& entity, float tpf);
-
-    sf::Vector2f gravity = sf::Vector2f(0, 100);
+    int32 velocityIterations = 8;
+    int32 positionIterations = 3;
 };
 
 #endif //RAINSFORD_PHYSICSSPACE_HPP

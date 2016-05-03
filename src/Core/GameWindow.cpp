@@ -14,18 +14,25 @@ void GameWindow::run() {
     sf::Clock timer;
     sf::Event event;
 
+    const float deltaTime = .01;
+    float accumulator = 0.0;
+
     while(running)
     {
         pollEvent(event);
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-            stop();
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) stop();
+        if(state) state->handleEvents(event);
 
-        if(state) {
-            float tpf = timer.restart().asSeconds();
-            state->handleEvents(event);
-            state->update(tpf);
-            state->render(*this);
+        float frameTime = timer.restart().asSeconds();
+        accumulator += frameTime;
+        while(accumulator >= deltaTime) {
+            if(state) state->update(deltaTime);
+            accumulator -= deltaTime;
         }
+
+        const float alpha = accumulator / deltaTime;
+
+        if(state) state->render(*this);
         display();
         clear();
     }
