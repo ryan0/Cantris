@@ -9,16 +9,18 @@
 #include <SFML/Graphics.hpp>
 #include <map>
 
-#include "System.hpp"
 #include "Core/DebugDraw.hpp"
 
-class GraphicsSystem : System {
+class GraphicsSystem {
 public:
-    void render(sf::RenderTarget& renderTarget, std::multimap<float, Entity*>& sceneGraph);
+    void render(double alpha, sf::RenderTarget& renderTarget, std::multimap<float, Entity*>& sceneGraph);
     void renderDebug();
 
-    virtual void update(float tpf, std::vector<std::unique_ptr<Entity>>& entities) override;
+    void update(double timeStep, std::vector<std::unique_ptr<Entity>>& entities);
     void setDebugDraw(sf::RenderTarget& renderTarget, b2World& physicsSpace);
+
+    static float Lerp(float v0, float v1, float alpha);
+    static sf::Vector2f Lerp(sf::Vector2f v0, sf::Vector2f  v1, float alpha);
 private:
     DebugDraw debugDraw;
 };

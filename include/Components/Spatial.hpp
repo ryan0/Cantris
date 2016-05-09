@@ -12,6 +12,7 @@
 class Spatial : public Component, public sf::Transformable {
 public:
     virtual void loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef, b2World& physicsSpace) override;
+    sf::Vector2f lastPosition;
 };
 
 #endif //RAINSFORD_POSITIONCOMP_HPP

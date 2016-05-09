@@ -6,16 +6,16 @@
 #define RAINSFORD_PHYSICSSPACE_HPP
 
 #include <Box2D/Box2D.h>
-#include "System.hpp"
+#include "Engine/Entity.hpp"
 
-class PhysicsSystem : public System {
+class PhysicsSystem {
 public:
-    virtual void update(float tpf, std::vector<std::unique_ptr<Entity>> &entities) override;
-    void doPhysics(float tpf, b2World& physicsSpace);
+    void update(double timeStep, std::vector<std::unique_ptr<Entity>> &entities);
+    void doPhysics(double timeStep, b2World& physicsSpace);
 
 private:
-    int32 velocityIterations = 8;
-    int32 positionIterations = 3;
+    const int32 velocityIterations = 8;
+    const int32 positionIterations = 4;
 };
 
 #endif //RAINSFORD_PHYSICSSPACE_HPP

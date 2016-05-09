@@ -11,7 +11,7 @@
 
 #include "Components/Component.hpp"
 
-class Renderable : public Component, public sf::Transformable {
+class Renderable : public Component {
     friend class GraphicsSystem;
 public:
     virtual void loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef, b2World& physicsSpace) override;

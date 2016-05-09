@@ -9,22 +9,11 @@
 
 Scene::Scene() {}
 
+Scene::Scene(std::unique_ptr<b2World> newPhysicsSpace)
+        : physicsSpace(std::move(newPhysicsSpace)) { }
+
 Scene::Scene(AssetManager& assetManager) {
-    physicsSpace.reset(new b2World(b2Vec2(0.0f, 10.0f)));
 
-    LuaEntityLoader luaLoader(assetManager, *physicsSpace);
-    std::unique_ptr<Entity> player = luaLoader.loadEntity("demo/luaEntities/rainsford.lua");
-    camera = Camera();
-    camera.follow(*player);
-    camera.setSize(sf::Vector2f(64, 36));
-
-    addEntity(std::move(player));
-    addEntity(luaLoader.loadEntity("demo/luaEntities/background.lua"));
-    addEntity(luaLoader.loadEntity("demo/luaEntities/floor.lua"));
-    addEntity(luaLoader.loadEntity("demo/luaEntities/testCollidable1.lua"));
-    addEntity(luaLoader.loadEntity("demo/luaEntities/testCollidable2.lua"));
-    addEntity(luaLoader.loadEntity("demo/luaEntities/box1.lua"));
-    addEntity(luaLoader.loadEntity("demo/luaEntities/box2.lua"));
 }
 
 void Scene::addEntity(std::unique_ptr<Entity> newEntity) {
@@ -42,6 +31,15 @@ std::vector<std::unique_ptr<Entity>>& Scene::getEntities() {
 
 std::multimap<float, Entity*>& Scene::getSceneGraph() {
     return  sceneGraph;
+}
+
+Entity* Scene::getEntity(std::string id) {
+    for (auto& it : entities) {
+        if(it->getId() == id) {
+            return it.get();
+        }
+    }
+    return nullptr;
 }
 
 Camera& Scene::getCamera() {

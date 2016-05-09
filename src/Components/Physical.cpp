@@ -16,6 +16,9 @@ b2BodyDef Physical::loadLuaBodyDef(sel::Selector &luaData) {
         float y = (float)double(luaData["position"][2]);
         bodyDef.position = b2Vec2(x, y);
     }
+    if(luaData["fixedRotation"]) {
+        bodyDef.fixedRotation = luaData["fixedRotation"];
+    }
     if(luaData["type"]) {
         if(luaData["type"] == "b2_staticBody") {
             bodyDef.type = b2_staticBody;
@@ -44,20 +47,23 @@ void Physical::createLuaFixture(sel::Selector &luaData) {
     if(luaData["restitution"] == true) {
         fixtureDef.restitution = (float)double(luaData["restitution"]);
     }
+    if(luaData["isSensor"] == true) {
+        fixtureDef.isSensor = luaData["isSensor"];
+    }
     if(luaData["b2PolygonShape"]) {
         sel::Selector polySelector = luaData["b2PolygonShape"];
-
         if(polySelector["setAsBox"]) {
-            if(polySelector["setAsBox"][3] == false) {
-                float hx = (float)double(polySelector["setAsBox"][1]);
-                float hy = (float)double(polySelector["setAsBox"][2]);
-                polygonShape.SetAsBox(hx, hy);
-            }
-            else {
-
-            }
+            float hx = (float)double(polySelector["setAsBox"][1]);
+            float hy = (float)double(polySelector["setAsBox"][2]);
+            polygonShape.SetAsBox(hx, hy);
+        }
+        if(polySelector["offset"]) {
+            float x = (float)double(polySelector["offset"][1]);
+            float y = (float)double(polySelector["offset"][2]);
+            polygonShape.m_centroid = b2Vec2(x, y);
         }
         fixtureDef.shape = &polygonShape;
     }
-    b2BodyRef->CreateFixture(&fixtureDef);
+    b2Fixture* fix = b2BodyRef->CreateFixture(&fixtureDef);
+
 }

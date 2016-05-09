@@ -10,8 +10,9 @@
 
 class Camera : public sf::View {
 public:
+    Camera();
     void follow(Entity& entity);
-    void updatePosition(float tpf);
+    void updatePosition(double alpha);
 
 private:
     Entity* entityRef;

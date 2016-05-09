@@ -2,28 +2,18 @@
 // Created by Ryan on 5/1/2016.
 //
 
-#include <Core/AssetManager.hpp>
-#include <Components/Animated.hpp>
-#include <Components/Movable.hpp>
-#include <Components/Physical.hpp>
+#include <Components/Animator.hpp>
+#include "Components/Animated.hpp"
+#include "Components/Physical.hpp"
 #include "Components/Renderable.hpp"
 #include "Components/Graphical.hpp"
 #include "Components/Spatial.hpp"
+#include "Components/Scriptable.hpp"
 
 
 void Renderable::loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef, b2World& physicsSpace) {
     if(luaData["zValue"] == true) {
         zValue = (float)double(luaData["zValue"]);
-    }
-    if(luaData["position"] == true) {
-        float x = (float)double(luaData["position"][1]);
-        float y = (float)double(luaData["position"][2]);
-        setPosition(x, y);
-    }
-    if(luaData["origin"] == true) {
-        float x = (float)double(luaData["origin"][1]);
-        float y = (float)double(luaData["origin"][2]);
-        setOrigin(x, y);
     }
 }
 
@@ -39,6 +29,11 @@ void Graphical::loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRe
         int y2 = luaData["textureRect"][4];
         setTextureRect(sf::IntRect(x1, y1, x2, y2));
     }
+    if(luaData["position"] == true) {
+        float x = (float)double(luaData["position"][1]);
+        float y = (float)double(luaData["position"][2]);
+        setPosition(x, y);
+    }
 }
 
 void Animated::loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef, b2World& physicsSpace) {
@@ -49,6 +44,31 @@ void Animated::loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef
     if(luaData["frametime"] == true) {
         float time = (float)double(luaData["frametime"]);
         setFrameTime(sf::seconds(time));
+    }
+    if(luaData["position"] == true) {
+        float x = (float)double(luaData["position"][1]);
+        float y = (float)double(luaData["position"][2]);
+        setPosition(x, y);
+    }
+}
+
+void Animator::loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef, b2World& physicsSpace) {
+    if(luaData["animations"] == true) {
+        int count = 1;
+        while(luaData["animations"][count] == true) {
+            std::string name = luaData["animations"][count][1];
+            std::string file = luaData["animations"][count][2];
+            AnimatedSprite animation;
+            animation.setAnimation(assetManagerRef.getAnimation(file));
+            addAnimation(name, animation);
+            setCurrentAnimation(name);
+            count++;
+        }
+    }
+    if(luaData["position"] == true) {
+        float x = (float)double(luaData["position"][1]);
+        float y = (float)double(luaData["position"][2]);
+        setPosition(x, y);
     }
 }
 
@@ -65,13 +85,6 @@ void Spatial::loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef,
     }
 }
 
-void Movable::loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef, b2World& physicsSpace) {
-    if(luaData["velocity"] == true) {
-
-    }
-}
-
-
 void Physical::loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef, b2World& physicsSpace) {
     b2BodyDef bodyDef;
 
@@ -84,5 +97,14 @@ void Physical::loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef
             sel::Selector selector = luaData["b2FixtureDef"];
             createLuaFixture(selector);
         }
+    }
+}
+
+void Scriptable::loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef, b2World& physicsSpace) {
+    int count = 1;
+    while(luaData[count] == true) {
+        std::string file = luaData[count];
+        scriptFiles.push_back(file);
+        count++;
     }
 }

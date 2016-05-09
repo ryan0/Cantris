@@ -15,13 +15,18 @@
 
 class Entity {
 public:
+    Entity();
+    Entity(std::string uId);
+    std::string getId();
     void addComponent(component_ptr newComponent);
-    template <typename T> bool hasComponent();
     template <typename T> T* getComponent();
+    template <typename T> bool hasComponent();
     template <typename T> void removeComponent();
+
 
 private:
     std::unordered_map<std::type_index, component_ptr> components;
+    std::string id;
 };
 
 

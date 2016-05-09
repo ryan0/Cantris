@@ -19,7 +19,7 @@ template<typename T> component_ptr createComponent() { return component_ptr(new 
 class LuaEntityLoader {
 public:
     LuaEntityLoader(AssetManager& assetManager, b2World& physicsSpace);
-    std::unique_ptr<Entity> loadEntity(std::string luafile);
+    std::unique_ptr<Entity> loadEntity(sel::Selector& luaData);
 
 private:
     std::map<std::string, component_ptr(*)()> component_register;

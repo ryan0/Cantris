@@ -4,14 +4,18 @@
 
 #include "Engine/Camera.hpp"
 #include "Components/Spatial.hpp"
+#include "Systems/GraphicsSystem.hpp"
+
+Camera::Camera() : entityRef(NULL) { }
 
 void Camera::follow(Entity &entity) {
     entityRef = &entity;
 }
 
-void Camera::updatePosition(float tpf) {
+void Camera::updatePosition(double alpha) {
     if(entityRef) {
         Spatial* spatialRef = entityRef->getComponent<Spatial>();
-        setCenter(spatialRef->getPosition().x, 36.0f);
+        float interpol = GraphicsSystem::Lerp(spatialRef->lastPosition.x, spatialRef->getPosition().x, alpha);
+        setCenter(interpol, getCenter().y);
     }
 }

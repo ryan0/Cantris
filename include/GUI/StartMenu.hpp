@@ -11,8 +11,8 @@
 
 class StartMenu : public WindowState {
 public:
-    virtual void update(float tpf) override;
-    virtual void render(sf::RenderTarget &target) override;
+    virtual void update(double timeStep) override;
+    virtual void render(double alpha, sf::RenderTarget &target) override;
     virtual void handleEvents(sf::Event &event);
     virtual void initialize(GameWindow& gameWindow, AssetManager& assetManager) override;
     virtual void cleanup() override;
@@ -20,7 +20,7 @@ public:
 private:
     GameWindow* gameWindowRef;
     sf::Sprite background;
-    float timeSinceSmoke;
+    double timeSinceSmoke;
     sf::Font cyrilPix;
     sf::Text title;
     AnimatedSprite

@@ -15,11 +15,13 @@
 class Scene {
 public:
     Scene();
+    Scene(std::unique_ptr<b2World> newPhysicsSpace);
     Scene(AssetManager& assetManager);
     void addEntity(std::unique_ptr<Entity> newEntity);
 
     std::vector<std::unique_ptr<Entity>>& getEntities();
     std::multimap<float, Entity*>& getSceneGraph();
+    Entity* getEntity(std::string id);
     b2World& getPhysicsSpace();
     Camera& getCamera();
 

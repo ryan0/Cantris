@@ -14,8 +14,8 @@ class AssetManager;
 
 class WindowState {
 public:
-    virtual void update(float tpf) = 0;
-    virtual void render(sf::RenderTarget& target) = 0;
+    virtual void update(double timeStep) = 0;
+    virtual void render(double alpha, sf::RenderTarget& target) = 0;
     virtual void handleEvents(sf::Event& event) = 0;
 
     virtual void initialize(GameWindow& gameWindow, AssetManager& assetManager) = 0;

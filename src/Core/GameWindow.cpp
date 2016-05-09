@@ -11,11 +11,11 @@ GameWindow::GameWindow() {
 
 void GameWindow::run() {
     running = true;
-    sf::Clock timer;
     sf::Event event;
+    sf::Clock timer;
 
-    const float deltaTime = .01;
-    float accumulator = 0.0;
+    const double timeStep = 1.0f / 120.0f;
+    double lag = 0;
 
     while(running)
     {
@@ -23,18 +23,21 @@ void GameWindow::run() {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) stop();
         if(state) state->handleEvents(event);
 
-        float frameTime = timer.restart().asSeconds();
-        accumulator += frameTime;
-        while(accumulator >= deltaTime) {
-            if(state) state->update(deltaTime);
-            accumulator -= deltaTime;
+        double dt = timer.restart().asSeconds();
+        if(dt > .15) {
+            dt = .15;
         }
+        lag += dt;
 
-        const float alpha = accumulator / deltaTime;
+        while(lag >= timeStep) {
+            if(state) state->update(timeStep);
+            lag -= timeStep;
+        }
+        double alpha = lag / timeStep;
 
-        if(state) state->render(*this);
-        display();
         clear();
+        if(state) state->render(alpha, *this);
+        display();
     }
 }
 

@@ -6,5 +6,6 @@ set(RAINSFORD_ENGINE_SRC
         Engine/Scene.cpp
         Engine/LuaEntityLoader.cpp
         Engine/LuaComponentLoaders.cpp
-
+        Engine/LuaSceneLoader.cpp
+        Engine/LuaBindings.cpp
 )

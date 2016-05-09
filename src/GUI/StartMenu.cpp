@@ -7,12 +7,11 @@
 #include "GUI/StartMenu.hpp"
 #include "Engine/Engine.hpp"
 
-void StartMenu::update(float tpf) {
-    rainsford.update(sf::seconds(tpf));
-    fire.update(sf::seconds(tpf));
-
+void StartMenu::update(double timeStep) {
+    rainsford.update(sf::seconds(timeStep));
+    fire.update(sf::seconds(timeStep));
     if(!rainsford.isPlaying()) {
-        timeSinceSmoke += tpf;
+        timeSinceSmoke += timeStep;
     }
     if(timeSinceSmoke > 5) {
         timeSinceSmoke = 0;
@@ -20,7 +19,7 @@ void StartMenu::update(float tpf) {
     }
 }
 
-void StartMenu::render(sf::RenderTarget &target) {
+void StartMenu::render(double alpha, sf::RenderTarget &target) {
     gameWindowRef->makeLetterBox(sf::Vector2f(200, 113));
     target.draw(background);
     target.draw(rainsford);

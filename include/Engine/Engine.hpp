@@ -15,14 +15,13 @@
 #include "Core/WindowState.hpp"
 #include "Core/GameWindow.hpp"
 #include "Systems/GraphicsSystem.hpp"
-#include "Systems/MovementSystem.hpp"
 #include "Systems/PhysicsSystem.hpp"
-#include "Systems/PlayerController.hpp"
+#include "Systems/ScriptSystem.hpp"
 
 class Engine : public WindowState {
 public:
-    virtual void update(float tpf) override;
-    virtual void render(sf::RenderTarget &target) override;
+    virtual void update(double timeStep) override;
+    virtual void render(double alpha, sf::RenderTarget &target) override;
     virtual void handleEvents(sf::Event &event) override ;
     virtual void initialize(GameWindow& gameWindow, AssetManager& assetManager) override;
     virtual void cleanup() override;
@@ -30,12 +29,11 @@ public:
 private:
     GameWindow* gameWindowRef;
     AssetManager* assetManagerRef;
-    Scene scene;
+    std::unique_ptr<Scene> scene;
 
     GraphicsSystem graphicsSystem;
-    MovementSystem movementSystem;
     PhysicsSystem physicsSystem;
-    PlayerController playerController;
+    ScriptSystem scriptSystem;
 };
 
 #endif //RAINSFORD_ENGINE_HPP
