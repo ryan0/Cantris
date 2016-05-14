@@ -9,9 +9,9 @@ function Wolf.new(pos)
     self.Animator = {
         position = {-3.7, -5.2},
         animations = {
-            {"Standing", "Animations/wolfStand.ani"},
-            {"Walking", "Animations/wolfWalk.ani"},
-            {"Running", "Animations/wolfRun.ani"}
+            {"Standing", "hound.lua"},
+            {"Walking", "hound.lua"},
+            {"Running", "hound.lua"}
         }
     }
     self.Spatial = {
@@ -34,7 +34,9 @@ function Wolf.new(pos)
         }
     }
     self.Scriptable = {
-        "wolfControl"
+        {
+            script = "wolfControl"
+        }
     }
     return self
 end

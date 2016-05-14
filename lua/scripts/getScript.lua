@@ -20,10 +20,15 @@ function updateScript(scriptHandle, tpf, entity, scene)
     luaScripts[scriptHandle]:update(tpf, entity, scene)
 end
 
-function getScript(scriptName)
+function getScript(scriptName, paramaters)
     local script = require(scriptName)
     local count = luaScripts.scriptCount
     luaScripts.scriptCount = count + 1
-    luaScripts[count] = script.new()
+    if paramaters == "NO_PARAMETERS" then
+        luaScripts[count] = script.new()
+    else
+        print(paramaters)
+        luaScripts[count] = script.new(paramaters)
+    end
     return count
 end

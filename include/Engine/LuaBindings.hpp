@@ -7,6 +7,7 @@
 
 #include "Engine/Entity.hpp"
 #include "Engine/Scene.hpp"
+#include "Core/AnimatedSprite.hpp"
 
 namespace lua {
     typedef sf::Vector2<double> Vector;
@@ -28,11 +29,19 @@ namespace lua {
 
     Vector getVelocity(Entity* entity);
     Vector getLocalCenter(Entity* entity);
+    void setPhysicalPosition(Entity* entity, Vector vec);
     void applyLinearImpulse(Entity* entity, Vector impulse, Vector point, bool wake = true);
     void applyForceToCenter(Entity* entity, Vector force, bool wake = true);
 
-    std::string getCurrentAnimation(Entity* entity);
-    void  setCurrentAnimation(Entity* entity, std::string animation);
+    AnimatedSprite* getCurrentAnimation(Entity* entity);
+    std::string getCurrentAnimationName(Entity* entity);
+    void setCurrentAnimation(Entity* entity, std::string animation);
+    void play(AnimatedSprite* animation);
+    void pause(AnimatedSprite* animation);
+    void stop(AnimatedSprite* animation);
+    void setLooped(AnimatedSprite* animation, bool looped);
+    bool isLooped(AnimatedSprite* animation);
+    bool isPlaying(AnimatedSprite* animation);
 }
 
 

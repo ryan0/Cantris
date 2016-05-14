@@ -45,12 +45,7 @@ void StartMenu::initialize(GameWindow& gameWindow, AssetManager& assetManager) {
     title.setCharacterSize(185);
     title.setPosition(550, 50);
 
-    rainsford.setAnimation(assetManager.getAnimation("startMenu/rainsford.ani"));
-    rainsford.setPosition(170, 95);
-    rainsford.setLooped(false);
-    rainsford.play();
-
-    fire.setAnimation(assetManager.getAnimation("startMenu/fire.ani"));
+    fire.setAnimation(assetManager.getAnimation("rainsford.lua", "RestByFire"));
     fire.setPosition(155, 95);
     fire.play();
 }

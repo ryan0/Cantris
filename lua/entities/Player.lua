@@ -9,12 +9,12 @@ function Player.new(pos)
     self.Animator = {
         position = {-3.5, -4.5},
         animations = {
-            {"Standing", "Animations/stand.ani"},
-            {"Running", "Animations/run.ani"},
-            {"Jumping", "Animations/jump.ani"},
-            {"Death", "Animations/death.ani"},
-            {"Crouching", "Animations/crouch.ani"},
-            {"Crawling", "Animations/crawl.ani"}
+            {"Standing", "rainsford.lua"},
+            {"Running", "rainsford.lua"},
+            {"Jumping", "rainsford.lua"},
+            {"Death", "rainsford.lua"},
+            {"Crouching", "rainsford.lua"},
+            {"Crawling", "rainsford.lua"}
         }
     }
     self.Spatial = {
@@ -29,7 +29,7 @@ function Player.new(pos)
         },
         b2FixtureDef = {
             density = 1.0,
-            friction = .5,
+            friction = 1,
             restitution = 0.0,
             b2PolygonShape = {
                 setAsBox = {0.8, 1.8}
@@ -37,7 +37,9 @@ function Player.new(pos)
         }
     }
     self.Scriptable = {
-        "playerControl"
+        {
+            script = "playerControl"
+        }
     }
     return self
 end

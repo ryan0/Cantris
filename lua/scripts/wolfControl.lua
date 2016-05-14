@@ -27,7 +27,6 @@ end
 function wolfControl:start(entity, scene)
     self.playerRef = getEntityById(scene, "Player")
     print("wolfControl.lua Started")
-
 end
 
 function wolfControl:update(tpf, entity, scene)

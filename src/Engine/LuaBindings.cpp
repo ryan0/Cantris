@@ -27,6 +27,8 @@ namespace {
             {"W", sf::Keyboard::W},
             {"D", sf::Keyboard::D},
             {"S", sf::Keyboard::S},
+            {"E", sf::Keyboard::E},
+            {"C", sf::Keyboard::C},
     };
 }
 
@@ -119,6 +121,13 @@ namespace lua {
         else return  Vector();
     }
 
+    void setPhysicalPosition(Entity* entity, Vector vec) {
+        if(entity->hasComponent<Physical>()) {
+            Physical* physical = entity->getComponent<Physical>();
+            physical->getBodyRef().SetTransform(tob2Vec(vec), physical->getBodyRef().GetAngle());
+        }
+    }
+
     void applyLinearImpulse(Entity* entity, Vector impulse, Vector point, bool wake) {
         if(entity->hasComponent<Physical>()) {
             Physical* physical = entity->getComponent<Physical>();
@@ -134,18 +143,51 @@ namespace lua {
     }
 
 
-    std::string getCurrentAnimation(Entity* entity) {
-        std::string str;
+    AnimatedSprite* getCurrentAnimation(Entity* entity) {
         if(entity->hasComponent<Animator>()) {
             Animator* animator = entity->getComponent<Animator>();
             return animator->getCurrentAnimation();
         }
+        else return nullptr;
+    }
+
+    std::string getCurrentAnimationName(Entity* entity) {
+        std::string str;
+        if(entity->hasComponent<Animator>()) {
+            Animator* animator = entity->getComponent<Animator>();
+            return animator->getCurrentAnimationName();
+        }
         else return "";
     }
+
     void  setCurrentAnimation(Entity* entity, std::string animation) {
         if(entity->hasComponent<Animator>()) {
             Animator* animator = entity->getComponent<Animator>();
             animator->setCurrentAnimation(animation);
         }
+    }
+
+    void play(AnimatedSprite* animation) {
+        animation->play();
+    }
+
+    void pause(AnimatedSprite* animation) {
+        animation->pause();
+    }
+
+    void stop(AnimatedSprite* animation) {
+        animation->stop();
+    }
+
+    void setLooped(AnimatedSprite* animation, bool looped) {
+        animation->setLooped(looped);
+    }
+
+    bool isLooped(AnimatedSprite* animation) {
+        return animation->isLooped();
+    }
+
+    bool isPlaying(AnimatedSprite* animation) {
+        return  animation->isPlaying();
     }
 }

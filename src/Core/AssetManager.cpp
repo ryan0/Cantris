@@ -22,37 +22,79 @@ const sf::Texture &AssetManager::getTexture(std::string filename) {
     }
 }
 
-const Animation &AssetManager::getAnimation(std::string filename) {
-    filename = "../assets/" + filename;
-    if(animations.count(filename)) {
-        return animations[filename];
+const Animation& AssetManager::getAnimation(std::string filename, std::string name) {
+    filename = "../lua/animations/" + filename;
+    if(animations.count(filename + name)) {
+        return animations[filename + name];
     }
     else {
         Animation animation;
-        std::ifstream file(filename);
-        if (file.is_open()) {
-            std::string texFile;
-            std::getline(file, texFile);
-            animation.setSpriteSheet(getTexture("../assets/" + texFile));
+        sel::State luaState;
+        luaState.Load(filename);
 
-            int frameWidth, frameHeight;
-            int frameRow, firstFrame, lastFrame;
-            file >> frameWidth;
-            file >> frameHeight;
-            file >> frameRow;
-            file >> firstFrame;
-            file >> lastFrame;
-            for (int i = firstFrame; i < lastFrame + 1; ++i) {
-                animation.addFrame(sf::IntRect(frameWidth * i, frameRow * frameHeight, frameWidth, frameHeight));
+        if (luaState["file"] == true) {
+            std::string spriteSheet = luaState["file"];
+            animation.setSpriteSheet(getTexture("../assets/" + spriteSheet));
+        }
+
+        if (luaState[name.c_str()] == true) {
+            sel::Selector selector = luaState[name.c_str()];
+            if (luaState["file"] == true) {
+                std::string spriteSheet = luaState["file"];
+                animation.setSpriteSheet(getTexture("../assets/" + spriteSheet));
             }
-            file.close();
+            int frameWidth, frameHeight;
+            int row, first, last;
+
+            frameWidth = selector["frameWidth"];
+            frameHeight = selector["frameHeight"];
+            if(selector["row"] == true) {
+                row = selector["row"];
+                first = selector["first"];
+                last = selector["last"];
+
+                if(last >= first) {
+                    for (int i = (first - 1); i < last; ++i) {
+                        animation.addFrame(
+                                sf::IntRect(frameWidth * i, (row - 1) * frameHeight, frameWidth, frameHeight));
+                    }
+                }
+                else {
+                    for (int i = (first - 1); i >= (last-1); --i) {
+                        animation.addFrame(
+                                sf::IntRect(frameWidth * i, (row - 1) * frameHeight, frameWidth, frameHeight));
+                    }
+                }
+            }
+            else {
+                int count = 1;
+                while(selector[count] == true) {
+                    std::cout<<count<<std::endl;
+                    row = selector[count]["row"];
+                    first = selector[count]["first"];
+                    last = selector[count]["last"];
+
+                    if(last >= first) {
+                        for (int i = (first - 1); i < last; ++i) {
+                            animation.addFrame(
+                                    sf::IntRect(frameWidth * i, (row - 1) * frameHeight, frameWidth, frameHeight));
+                        }
+                    }
+                    else {
+                        for (int i = (first - 1); i >= (last-1); --i) {
+                            animation.addFrame(
+                                    sf::IntRect(frameWidth * i, (row - 1) * frameHeight, frameWidth, frameHeight));
+                        }
+                    }
+                    count++;
+                }
+            }
+
+            animations[filename + name] = animation;
+            return animations[filename + name];
         }
-        else {
-            std::cout << "Unable to open " << filename << std::endl;
-        }
-        animations[filename] = animation;
-        return animations[filename];
     }
+    std::cout<<"Unable to find animation:"<<name<<" in file:"<<filename<<std::endl;
 }
 
 const sf::SoundBuffer &AssetManager::getSoundBuffer(std::string filename) {

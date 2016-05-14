@@ -50,9 +50,17 @@ ScriptSystem::ScriptSystem() {
 
     luaState["getLocalCenter"] = &lua::getLocalCenter;
     luaState["getVelocity"] = &lua::getVelocity;
+    luaState["setPhysicalPosition"] = &lua::setPhysicalPosition;
     luaState["applyLinearImpulse"] = &lua::applyLinearImpulse;
     luaState["applyForceToCenter"] = &lua::applyForceToCenter;
 
     luaState["setCurrentAnimation"] = &lua::setCurrentAnimation;
     luaState["getCurrentAnimation"] = &lua::getCurrentAnimation;
+    luaState["getCurrentAnimationName"] = &lua::getCurrentAnimationName;
+    luaState["play"] = &lua::play;
+    luaState["pause"] = &lua::pause;
+    luaState["stop"] = &lua::stop;
+    luaState["setLooped"] = &lua::setLooped;
+    luaState["isLooped"] = &lua::isLooped;
+    luaState["isPlaying"] = &lua::isPlaying;
 }

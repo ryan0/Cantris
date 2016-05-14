@@ -34,12 +34,19 @@ void Graphical::loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRe
         float y = (float)double(luaData["position"][2]);
         setPosition(x, y);
     }
+    if(luaData["scale"] == true) {
+            float v = (float) double(luaData["scale"]);
+            std::cout<<v;
+            setScale(v, v);
+    }
 }
 
 void Animated::loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef, b2World& physicsSpace) {
     if(luaData["animation"] == true) {
-        std::string animation= luaData["animation"];
-        setAnimation(assetManagerRef.getAnimation(animation));
+        sel::Selector selector = luaData["animation"];
+        std::string name = selector["name"];
+        std::string file = selector["file"];
+        setAnimation(assetManagerRef.getAnimation(file, name));
     }
     if(luaData["frametime"] == true) {
         float time = (float)double(luaData["frametime"]);
@@ -59,7 +66,7 @@ void Animator::loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef
             std::string name = luaData["animations"][count][1];
             std::string file = luaData["animations"][count][2];
             AnimatedSprite animation;
-            animation.setAnimation(assetManagerRef.getAnimation(file));
+            animation.setAnimation(assetManagerRef.getAnimation(file, name));
             addAnimation(name, animation);
             setCurrentAnimation(name);
             count++;
@@ -103,8 +110,15 @@ void Physical::loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef
 void Scriptable::loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef, b2World& physicsSpace) {
     int count = 1;
     while(luaData[count] == true) {
-        std::string file = luaData[count];
-        scriptFiles.push_back(file);
+        ScriptData scriptData;
+        scriptData.parameters = "NO_PARAMETERS";
+        std::string file = luaData[count]["script"];
+        scriptData.file = file;
+        if(luaData[count]["parameters"]) {
+            std::string parameters = luaData[count]["parameters"];
+            scriptData.parameters = parameters;
+        }
+        scriptInfo.push_back(scriptData);
         count++;
     }
 }

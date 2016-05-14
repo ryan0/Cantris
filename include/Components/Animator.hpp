@@ -16,7 +16,8 @@ public:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     void addAnimation(std::string str, AnimatedSprite animtaion);
     void setCurrentAnimation(std::string str);
-    std::string getCurrentAnimation();
+    AnimatedSprite* getCurrentAnimation();
+    std::string getCurrentAnimationName();
     void update(sf::Time deltaTime);
 
 private:

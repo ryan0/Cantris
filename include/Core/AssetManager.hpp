@@ -16,7 +16,7 @@
 class AssetManager {
 public:
     const sf::Texture& getTexture(std::string filename);
-    const Animation& getAnimation(std::string filename);
+    const Animation& getAnimation(std::string filename, std::string name);
     const sf::SoundBuffer& getSoundBuffer(std::string filename);
     void playSong(std::string filename);
 

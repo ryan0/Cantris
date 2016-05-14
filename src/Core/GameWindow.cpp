@@ -11,23 +11,25 @@ GameWindow::GameWindow() {
 
 void GameWindow::run() {
     running = true;
-    sf::Event event;
     sf::Clock timer;
 
-    const double timeStep = 1.0f / 120.0f;
+    const double timeStep = 1.0f / 180.0f;
     double lag = 0;
 
     while(running)
     {
-        pollEvent(event);
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) stop();
-        if(state) state->handleEvents(event);
+        sf::Event event;
+        while (pollEvent(event)) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) stop();
+            if (state) state->handleEvents(event);
+        }
 
         double dt = timer.restart().asSeconds();
-        if(dt > .15) {
-            dt = .15;
+        if(dt > .05) {
+            dt = .05;
         }
         lag += dt;
+        std::cout<<dt<<std::endl;
 
         while(lag >= timeStep) {
             if(state) state->update(timeStep);

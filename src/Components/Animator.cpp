@@ -10,7 +10,11 @@ void Animator::setCurrentAnimation(std::string str) {
     currentAnimationKey = str;
 }
 
-std::string Animator::getCurrentAnimation() {
+AnimatedSprite* Animator::getCurrentAnimation() {
+    return currentAnimation;
+}
+
+std::string Animator::getCurrentAnimationName() {
     return  currentAnimationKey;
 }
 

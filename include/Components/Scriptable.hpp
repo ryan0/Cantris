@@ -6,6 +6,7 @@
 #define RAINSFORD_SCRIPTABLE_HPP
 
 #include <memory>
+#include <string>
 #include "selene.h"
 #include "Component.hpp"
 #include "Engine/Entity.hpp"
@@ -16,11 +17,15 @@ public:
     virtual void loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef, b2World& physicsSpace) override;
     void start(Entity* entity, Scene* scene, sel::State& luaState);
     void update(double timeStep, Entity* entity, Scene* scene, sel::State& luaState);
-    const std::vector<std::string>& getfiles();
     bool started();
 
 private:
-    std::vector<std::string> scriptFiles;
+    struct ScriptData {
+        std::string file;
+        std::string parameters;
+    };
+
+    std::vector<ScriptData> scriptInfo;
     std::vector<int> scriptHandles;
     bool hasStarted = false;
 };

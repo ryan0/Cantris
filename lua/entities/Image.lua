@@ -1,12 +1,13 @@
 local Image = {}
 
-function Image.new(file, pos, scale)
+function Image.new(file, pos, scl, layer)
     local self = {}
     self.Renderable = {
-        zValue = -1
+        zValue = layer
     }
     self.Graphical = {
-        texture = file
+        texture = file,
+        scale = scl
     }
     self.Spatial = {
         position = pos
