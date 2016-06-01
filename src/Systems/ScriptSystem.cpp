@@ -20,6 +20,8 @@ void ScriptSystem::update(double timeStep, std::vector<std::unique_ptr<Entity>> 
             }
         }
     }
+
+    luaState("collectgarbage()");
 }
 
 

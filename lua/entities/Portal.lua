@@ -8,7 +8,7 @@
 
 local Portal = {}
 
-function Portal.new(id, targetId, pos)
+function Portal.new(id, targetId)
     local self = {}
     self.id = id
     self.Renderable = {
@@ -22,7 +22,7 @@ function Portal.new(id, targetId, pos)
 
     }
     self.Spatial = {
-        position = pos
+        position = {0, 0}
     }
     self.Scriptable = {
         {

@@ -10,7 +10,7 @@ include(Systems/CMakeLists.txt)
 
 # Attach sources to the target
 add_executable(
-	Rainsford
+	Aielis
 		main.cpp
         ${RAINSFORD_COMPONENTS_SRC}
         ${RAINSFORD_CORE_SRC}
@@ -22,7 +22,7 @@ add_executable(
 
 # Attach dependancies to the executable
 target_link_libraries(
-	Rainsford
+	Aielis
 		${SFML_LIBRARIES}
 		${LUA_LIBRARIES}
         ${BOX2D_LIBRARIES}

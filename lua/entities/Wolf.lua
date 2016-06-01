@@ -1,6 +1,6 @@
 local Wolf = {}
 
-function Wolf.new(pos)
+function Wolf.new()
     local self = {}
     self.id = "Wolf"
     self.Renderable = {
@@ -20,7 +20,7 @@ function Wolf.new(pos)
     }
     self.Physical = {
         b2BodyDef = {
-            position = pos,
+            position = {0, 0},
             fixedRotation = true;
             type = "b2_dynamicBody"
         },

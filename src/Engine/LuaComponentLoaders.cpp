@@ -60,22 +60,33 @@ void Animated::loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef
 }
 
 void Animator::loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef, b2World& physicsSpace) {
-    if(luaData["animations"] == true) {
-        int count = 1;
-        while(luaData["animations"][count] == true) {
-            std::string name = luaData["animations"][count][1];
-            std::string file = luaData["animations"][count][2];
-            AnimatedSprite animation;
-            animation.setAnimation(assetManagerRef.getAnimation(file, name));
-            addAnimation(name, animation);
-            setCurrentAnimation(name);
-            count++;
-        }
-    }
     if(luaData["position"] == true) {
         float x = (float)double(luaData["position"][1]);
         float y = (float)double(luaData["position"][2]);
         setPosition(x, y);
+    }
+    if(luaData["animations"] == true) {
+        sel::Selector selector = luaData["animations"];
+        int count = 1;
+        while(selector[count] == true) {
+            std::string name = selector[count][1];
+            std::string file = selector[count][2];
+            AnimatedSprite animation;
+            animation.setAnimation(assetManagerRef.getAnimation(file, name));
+            addAnimation(name, animation);
+            setCurrentAnimation(name);
+
+            if(selector[count]["offset"] == true) {
+                float x = (float)double(selector[count]["offset"][1]);
+                float y = (float)double(selector[count]["offset"][2]);
+                currentAnimation->setPosition(x, y);
+            }
+            if(selector[count]["frametime"] == true) {
+                float time = (float)double(selector[count]["frametime"]);
+                currentAnimation->setFrameTime(sf::seconds(time));
+            }
+            count++;
+        }
     }
 }
 

@@ -10,9 +10,11 @@ void Engine::update(double timeStep) {
     physicsSystem.doPhysics(timeStep, scene->getPhysicsSpace());
     physicsSystem.update(timeStep, scene->getEntities());
     scriptSystem.update(timeStep, scene->getEntities(), scene.get());
+    scene->getCamera().update(timeStep);
 }
 
 void Engine::render(double alpha, sf::RenderTarget &renderTarget) {
+    gameWindowRef->makeLetterBox(scene->getCamera());
     scene->getCamera().updatePosition(alpha);
     renderTarget.setView(scene->getCamera());
     graphicsSystem.render(alpha, renderTarget, scene->getSceneGraph());
@@ -29,16 +31,11 @@ void Engine::handleEvents(sf::Event &event) {
 }
 
 void Engine::initialize(GameWindow &gameWindow, AssetManager &assetManager) {
-    static int count = 0;
-    std::cout<<"Reloads"<< count<<std::endl;
-    count++;
-
     gameWindowRef = &gameWindow;
     assetManagerRef = &assetManager;
     LuaSceneLoader sceneLoader(assetManager);
     scene = (sceneLoader.loadScene("testScene.lua"));
-    graphicsSystem.setDebugDraw(gameWindow, scene->getPhysicsSpace());
-    gameWindowRef->makeLetterBox(scene->getCamera());
+    //graphicsSystem.setDebugDraw(gameWindow, scene->getPhysicsSpace());
 }
 
 void Engine::cleanup() {

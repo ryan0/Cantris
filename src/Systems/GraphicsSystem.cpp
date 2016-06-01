@@ -36,7 +36,7 @@ void GraphicsSystem::render(double alpha, sf::RenderTarget& renderTarget, std::m
             transform.rotate(spatialRef->getRotation());
             transform.scale(spatialRef->getScale());
 
-            transform.scale(sf::Vector2f(.5f, .5f));
+            transform.scale(sf::Vector2f(.12f, .12f));
             sf::RenderStates states(transform);
             renderTarget.draw(*renderRef->getDrawable(), states);
         }

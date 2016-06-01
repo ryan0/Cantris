@@ -3,19 +3,25 @@
 //
 
 #include "Core/GameWindow.hpp"
+#include <SFML/OpenGL.hpp>
 #include <iostream>
+
+namespace {
+    void renderThread() {
+
+    }
+}
 
 GameWindow::GameWindow() {
 
 }
 
 void GameWindow::run() {
+    const double lockStep = 1.0 / 120.0;
+    double dtAccumulator = 0;
+    sf::Clock dtClock;
+
     running = true;
-    sf::Clock timer;
-
-    const double timeStep = 1.0f / 180.0f;
-    double lag = 0;
-
     while(running)
     {
         sf::Event event;
@@ -24,18 +30,14 @@ void GameWindow::run() {
             if (state) state->handleEvents(event);
         }
 
-        double dt = timer.restart().asSeconds();
-        if(dt > .05) {
-            dt = .05;
-        }
-        lag += dt;
-        std::cout<<dt<<std::endl;
+        double dt = dtClock.restart().asSeconds();
+        dtAccumulator += dt;
 
-        while(lag >= timeStep) {
-            if(state) state->update(timeStep);
-            lag -= timeStep;
+        while(dtAccumulator >= lockStep) {
+            dtAccumulator -= lockStep;
+            if(state) state->update(lockStep);
         }
-        double alpha = lag / timeStep;
+        double alpha = dtAccumulator / lockStep;
 
         clear();
         if(state) state->render(alpha, *this);

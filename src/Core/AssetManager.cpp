@@ -44,7 +44,7 @@ const Animation& AssetManager::getAnimation(std::string filename, std::string na
                 animation.setSpriteSheet(getTexture("../assets/" + spriteSheet));
             }
             int frameWidth, frameHeight;
-            int row, first, last;
+            int margin = 0, spacing = 0, row = 0, first, last;
 
             frameWidth = selector["frameWidth"];
             frameHeight = selector["frameHeight"];
@@ -53,16 +53,23 @@ const Animation& AssetManager::getAnimation(std::string filename, std::string na
                 first = selector["first"];
                 last = selector["last"];
 
+                if(selector["margin"] == true) {
+                    margin = selector["margin"];
+                }
+                if(selector["spacing"] == true) {
+                    spacing = selector["spacing"];
+                }
+
                 if(last >= first) {
                     for (int i = (first - 1); i < last; ++i) {
                         animation.addFrame(
-                                sf::IntRect(frameWidth * i, (row - 1) * frameHeight, frameWidth, frameHeight));
+                                sf::IntRect(frameWidth * i + spacing * i + margin, (row - 1) * frameHeight + spacing * (row - 1) + margin, frameWidth, frameHeight));
                     }
                 }
                 else {
                     for (int i = (first - 1); i >= (last-1); --i) {
                         animation.addFrame(
-                                sf::IntRect(frameWidth * i, (row - 1) * frameHeight, frameWidth, frameHeight));
+                                sf::IntRect(frameWidth * i + spacing * i + margin, (row - 1) * frameHeight + spacing * (row - 1) + margin, frameWidth, frameHeight));
                     }
                 }
             }
@@ -77,13 +84,13 @@ const Animation& AssetManager::getAnimation(std::string filename, std::string na
                     if(last >= first) {
                         for (int i = (first - 1); i < last; ++i) {
                             animation.addFrame(
-                                    sf::IntRect(frameWidth * i, (row - 1) * frameHeight, frameWidth, frameHeight));
+                                    sf::IntRect(frameWidth * i + spacing * i + margin, (row - 1) * frameHeight + spacing * (row - 1) + margin, frameWidth, frameHeight));
                         }
                     }
                     else {
                         for (int i = (first - 1); i >= (last-1); --i) {
                             animation.addFrame(
-                                    sf::IntRect(frameWidth * i, (row - 1) * frameHeight, frameWidth, frameHeight));
+                                    sf::IntRect(frameWidth * i + spacing * i + margin, (row - 1) * frameHeight + spacing * (row - 1) + margin, frameWidth, frameHeight));
                         }
                     }
                     count++;

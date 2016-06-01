@@ -1,20 +1,17 @@
 local Player = {}
 
-function Player.new(pos)
+function Player.new()
     local self = {}
-    self.id = "Player"
     self.Renderable = {
         zValue = 0
     }
     self.Animator = {
-        position = {-3.5, -4.5},
+        position = {-7.5, -16.5},
         animations = {
-            {"Standing", "rainsford.lua"},
-            {"Running", "rainsford.lua"},
-            {"Jumping", "rainsford.lua"},
-            {"Death", "rainsford.lua"},
-            {"Crouching", "rainsford.lua"},
-            {"Crawling", "rainsford.lua"}
+            {"Walking", "player.lua"},
+            {"Running", "player.lua", offset = {-13, 0}, frametime = 1/10},
+            {"Jumping", "player.lua", offset = {-13, 0}},
+            {"Standing", "player.lua"}
         }
     }
     self.Spatial = {
@@ -23,16 +20,16 @@ function Player.new(pos)
     }
     self.Physical = {
         b2BodyDef = {
-            position = pos,
+            position = {0, 0},
             fixedRotation = true;
             type = "b2_dynamicBody"
         },
         b2FixtureDef = {
             density = 1.0,
-            friction = 1,
+            friction = 0.0,
             restitution = 0.0,
             b2PolygonShape = {
-                setAsBox = {0.8, 1.8}
+                setAsBox = {0.8, 1.9}
             }
         }
     }

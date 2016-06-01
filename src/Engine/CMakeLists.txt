@@ -8,4 +8,5 @@ set(RAINSFORD_ENGINE_SRC
         Engine/LuaComponentLoaders.cpp
         Engine/LuaSceneLoader.cpp
         Engine/LuaBindings.cpp
+        Engine/SceneEditor.cpp
 )

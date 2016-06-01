@@ -50,12 +50,25 @@ void Physical::createLuaFixture(sel::Selector &luaData) {
     if(luaData["isSensor"] == true) {
         fixtureDef.isSensor = luaData["isSensor"];
     }
-    if(luaData["b2PolygonShape"]) {
+    if(luaData["b2PolygonShape"] == true) {
         sel::Selector polySelector = luaData["b2PolygonShape"];
         if(polySelector["setAsBox"]) {
             float hx = (float)double(polySelector["setAsBox"][1]);
             float hy = (float)double(polySelector["setAsBox"][2]);
             polygonShape.SetAsBox(hx, hy);
+        }
+        else if(polySelector["vertices"] == true) {
+            sel::Selector vertSelector = polySelector["vertices"];
+            std::vector<b2Vec2> vertices;
+            int count = 1;
+            while(vertSelector[count] == true) {
+                b2Vec2 vert;
+                vert.x = (float)double(vertSelector[count][1]);
+                vert.y = (float)double(vertSelector[count][2]);
+                vertices.push_back(vert);
+                count++;
+            }
+            polygonShape.Set(vertices.data(), vertices.size());
         }
         if(polySelector["offset"]) {
             float x = (float)double(polySelector["offset"][1]);

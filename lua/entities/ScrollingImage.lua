@@ -8,7 +8,7 @@
 
 local ScrollingImage = {}
 
-function ScrollingImage.new(scrollRate, file, pos, scl, layer)
+function ScrollingImage.new(scrollRate, file, scl, layer)
     local self = {}
     self.Renderable = {
         zValue = layer
@@ -18,7 +18,7 @@ function ScrollingImage.new(scrollRate, file, pos, scl, layer)
         scale = scl
     }
     self.Spatial = {
-        position = pos
+        position = {0, 0}
     }
     self.Scriptable = {
         {

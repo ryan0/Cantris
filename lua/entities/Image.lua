@@ -1,6 +1,6 @@
 local Image = {}
 
-function Image.new(file, pos, scl, layer)
+function Image.new(file, scl, layer)
     local self = {}
     self.Renderable = {
         zValue = layer
@@ -10,7 +10,7 @@ function Image.new(file, pos, scl, layer)
         scale = scl
     }
     self.Spatial = {
-        position = pos
+        position = {0, 0}
     }
     return self
 end

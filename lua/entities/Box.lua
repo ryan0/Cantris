@@ -1,27 +1,27 @@
 local Box = {}
 
-function Box.new(pos)
+function Box.new()
     local self = {}
     self.Renderable = {
         zValue = 0
     }
     self.Graphical = {
         texture = "wood.png",
-        textureRect = {0, 0, 4, 4 },
-        position = {-1.9, -1.9}
+        textureRect = {0, 0, 16, 16},
+        position = {-8, -8}
     }
     self.Spatial = {
-        position = pos
+        position = {0, 0}
     }
     self.Physical = {
         b2BodyDef = {
-            position = pos,
+            position = {0, 0},
             type = "b2_dynamicBody"
         },
 
         b2FixtureDef = {
-            density = 1.0,
-            friction = .3,
+            density = 2.0,
+            friction = 1,
             restitution = .2,
             b2PolygonShape = {
                     setAsBox = {1.0, 1.0}

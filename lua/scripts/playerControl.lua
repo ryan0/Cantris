@@ -25,11 +25,17 @@ local Keys = {
 function playerControl.new()
     local self = setmetatable({}, playerControl)
     self.state = States.standing
+    self.enteringState = true
+
     self.prevVelY = 0
     self.jumpDelay = .25
-    self.jumpPower = -70
-    self.runForce = 150
-    self.runVel = 30
+    self.jumpPower = -100
+    self.jumpInputTimer = 0
+
+    self.runForce = 200
+    self.stopForce = 200
+    self.runVel = 12
+
     return self
 end
 
@@ -39,7 +45,6 @@ function playerControl:start(entity, scene)
 end
 
 function playerControl:update(tpf, entity, scene)
-    local velocity = getVelocity(entity)
     self.jumpDelay = self.jumpDelay - tpf
     self:getInput()
 
@@ -55,18 +60,39 @@ function playerControl:finish(entity)
 
 end
 
+function playerControl:setState(state)
+    self.state = state
+    self.enteringState = true
+end
 
 function playerControl:standing(entity)
+    if self.enteringState then
+        setCurrentAnimation(entity, "Standing")
+        self.enteringState = false
+    end
+
+
     if Keys.D and Keys.A then
+        --do notin
     elseif Keys.A or Keys.D then
-        self.state = States.running
-        setCurrentAnimation(entity, "Running")
-    elseif Keys.W and self.jumpDelay <= 0 then self.state = States.jumping
-        setCurrentAnimation(entity, "Jumping")
-        local jumpVel = Vector:new()
-        jumpVel:set_y(self.jumpPower);
-        self.prevVelY = getVelocity(entity):y()
-        applyLinearImpulse(entity, jumpVel, getLocalCenter(entity), true)
+        self:setState(States.running)
+    elseif Keys.W and self.jumpDelay <= 0 then
+        self:setState(States.jumping)
+    else
+        local xVel = getVelocity(entity):x()
+        local stopVec = Vector:new()
+        local mod = 0
+        if(math.abs(xVel) < 1) then
+            mod = math.abs(xVel)
+        end
+
+        if(xVel > 0) then
+            stopVec:set_x(-self.stopForce * mod)
+            applyForceToCenter(entity, stopVec, true)
+        elseif(xVel < 0) then
+            stopVec:set_x(self.stopForce * mod)
+            applyForceToCenter(entity, stopVec, true)
+        end
     end
 end
 
@@ -75,18 +101,18 @@ function playerControl:running(entity)
     local currVelx = math.abs(getVelocity(entity):x())
     local runForce = Vector:new()
 
+    if self.enteringState then
+        setCurrentAnimation(entity, "Running")
+        self.enteringState = false
+    end
+
+
     if Keys.D and Keys.A then
         if math.abs(getVelocity(entity):x()) < .5 then
-            self.state = States.standing
-            setCurrentAnimation(entity, "Standing")
+            self:setState(States.standing)
         end
     elseif Keys.W and self.jumpDelay <= 0 then
-        self.state = States.jumping
-        setCurrentAnimation(entity, "Jumping")
-        local jumpVel = Vector:new()
-        jumpVel:set_y(self.jumpPower);
-        self.prevVelY = getVelocity(entity):y()
-        applyLinearImpulse(entity, jumpVel, getLocalCenter(entity), true)
+        self:setState(States.jumping)
     elseif Keys.D and currVelx < self.runVel then
         runForce:set_x(self.runForce);
         applyForceToCenter(entity, runForce, true)
@@ -100,6 +126,16 @@ function playerControl:running(entity)
     elseif math.abs(getVelocity(entity):x()) < .5 then
         self.state = States.standing
         setCurrentAnimation(entity, "Standing")
+    else
+        local xVel = getVelocity(entity):x()
+        local stopVec = Vector:new()
+        if(xVel > 0) then
+            stopVec:set_x(-self.stopForce)
+            applyForceToCenter(entity, stopVec, true)
+        elseif(xVel < 0) then
+            stopVec:set_x(self.stopForce)
+            applyForceToCenter(entity, stopVec, true)
+        end
     end
 end
 
@@ -107,6 +143,16 @@ function playerControl:jumping(entity)
     local direction = Vector:new()  direction:set_y(1)
     local currVelY = getVelocity(entity):y()
     local jumpForce = Vector.new()
+
+    if self.enteringState then
+        setCurrentAnimation(entity, "Jumping")
+        local jumpVel = Vector:new()
+        jumpVel:set_y(self.jumpPower);
+        self.prevVelY = -1
+        applyLinearImpulse(entity, jumpVel, getLocalCenter(entity), true)
+        self.enteringState = false
+    end
+
 
     if currVelY < self.prevVelY + 0.1 and currVelY > self.prevVelY - 0.1 then
         self.jumpDelay = .25
@@ -119,13 +165,13 @@ function playerControl:jumping(entity)
         end
     else
         if Keys.D then
-            jumpForce:set_x(20);
+            jumpForce:set_x(50);
             applyForceToCenter(entity, jumpForce, true)
             direction:set_x(1)
             setScale(entity, direction)
         end
         if Keys.A then
-            jumpForce:set_x(-20);
+            jumpForce:set_x(-50);
             applyForceToCenter(entity, jumpForce, true)
             direction:set_x(-1)
             setScale(entity, direction)

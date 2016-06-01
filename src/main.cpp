@@ -1,20 +1,30 @@
-#include <afxres.h>
+#include <SFML/OpenGL.hpp>
 #include "Core/GameWindow.hpp"
 #include "GUI/StartMenu.hpp"
+#include "Engine/SceneEditor.hpp"
 
-int main() {
-    SetPriorityClass(GetCurrentProcess(), ABOVE_NORMAL_PRIORITY_CLASS);
-
-    GameWindow gameWindow;
-    sf::VideoMode videoMode(600, 400);
+int main(int argc, char* argv[]) {
     sf::ContextSettings contextSettings;
-    contextSettings.antialiasingLevel = 0;
-    contextSettings.majorVersion = 3;
+    contextSettings.antialiasingLevel = 4;
+    contextSettings.majorVersion = 2;
     contextSettings.minorVersion = 0;
-    gameWindow.create(sf::VideoMode::getDesktopMode(), "Rainsford", sf::Style::Fullscreen, contextSettings);
-    gameWindow.setVerticalSyncEnabled(true);
-    gameWindow.setState(windowState_ptr(new StartMenu));
-    gameWindow.run();
+    sf::VideoMode editorVideoMode(600, 400);
 
+
+    if(argc > 1 && strcmp(argv[1], "Editor") == 0) {
+        GameWindow editorWindow;
+        editorWindow.create(editorVideoMode, "Editor", sf::Style::Default, contextSettings);
+        editorWindow.setVerticalSyncEnabled(true);
+        editorWindow.setState(windowState_ptr(new SceneEditor));
+        editorWindow.run();
+    }
+    else {
+        GameWindow gameWindow;
+        gameWindow.create(sf::VideoMode::getDesktopMode(), "Aeilis", sf::Style::Fullscreen, contextSettings);
+        gameWindow.setVerticalSyncEnabled(true);
+        gameWindow.setFramerateLimit(0);
+        gameWindow.setState(windowState_ptr(new StartMenu));
+        gameWindow.run();
+    }
     return 0;
 }

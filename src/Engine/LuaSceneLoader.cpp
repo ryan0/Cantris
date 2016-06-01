@@ -26,12 +26,23 @@ std::unique_ptr<Scene> LuaSceneLoader::loadScene(std::string luafile) {
     std::unique_ptr<b2World> physicsSpace(new b2World(gravity));
 
 
+    luaState(
+            "keysArray = {}\n"
+            "entitiesArray = {}\n"
+            "local count = 1\n"
+            "for k, v in pairs(entities) do\n"
+                "v.id = k\n"
+                "entitiesArray[count] = v\n"
+                "count = count + 1\n"
+            "end\n"
+     );
+
     std::unique_ptr<Scene> scene(new Scene(std::move(physicsSpace)));
     LuaEntityLoader entityLoader(assetManagerRef, scene->getPhysicsSpace());
-    if(luaState["entities"] == true) {
+    if(luaState["entitiesArray"] == true) {
         int count = 1;
-        while(luaState["entities"][count] == true) {
-            sel::Selector selector = luaState["entities"][count];
+        while(luaState["entitiesArray"][count] == true) {
+            sel::Selector selector = luaState["entitiesArray"][count];
             scene->addEntity(entityLoader.loadEntity(selector));
             count++;
         }
