@@ -8,6 +8,30 @@ b2Body& Physical::getBodyRef() {
     return *b2BodyRef;
 }
 
+
+void Physical::loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef, b2World& physicsSpace) {
+    b2BodyDef bodyDef;
+
+    if(luaData["b2BodyDef"] == true) {
+        sel::Selector selector = luaData["b2BodyDef"];
+        bodyDef = loadLuaBodyDef(selector);
+        b2BodyRef = physicsSpace.CreateBody(&bodyDef);
+
+        if(luaData["b2FixtureDef"] == true) {
+            sel::Selector selector = luaData["b2FixtureDef"];
+            createLuaFixture(selector);
+        }
+        else if(luaData["b2FixtureDefs"] == true) {
+            int count = 1;
+            while(luaData["b2FixtureDefs"][count] == true) {
+                sel::Selector selector = luaData["b2FixtureDefs"][count];
+                createLuaFixture(selector);
+                count++;
+            }
+        }
+    }
+}
+
 b2BodyDef Physical::loadLuaBodyDef(sel::Selector &luaData) {
     b2BodyDef bodyDef;
 
@@ -37,6 +61,7 @@ b2BodyDef Physical::loadLuaBodyDef(sel::Selector &luaData) {
 void Physical::createLuaFixture(sel::Selector &luaData) {
     b2FixtureDef fixtureDef;
     b2PolygonShape polygonShape;
+    b2CircleShape circleShape;
 
     if(luaData["density"] == true) {
         fixtureDef.density = (float)double(luaData["density"]);
@@ -50,14 +75,21 @@ void Physical::createLuaFixture(sel::Selector &luaData) {
     if(luaData["isSensor"] == true) {
         fixtureDef.isSensor = luaData["isSensor"];
     }
-    if(luaData["b2PolygonShape"] == true) {
+    if(luaData["b2PolygonShape"]) {
         sel::Selector polySelector = luaData["b2PolygonShape"];
+        b2Vec2 offset = b2Vec2(0, 0);
+        if(polySelector["offset"]) {
+            float x = (float)double(polySelector["offset"][1]);
+            float y = (float)double(polySelector["offset"][2]);
+            offset = b2Vec2(x, y);
+        }
+
         if(polySelector["setAsBox"]) {
             float hx = (float)double(polySelector["setAsBox"][1]);
             float hy = (float)double(polySelector["setAsBox"][2]);
-            polygonShape.SetAsBox(hx, hy);
+            polygonShape.SetAsBox(hx, hy, offset, 0);
         }
-        else if(polySelector["vertices"] == true) {
+        else if(polySelector["vertices"]) {
             sel::Selector vertSelector = polySelector["vertices"];
             std::vector<b2Vec2> vertices;
             int count = 1;
@@ -70,13 +102,21 @@ void Physical::createLuaFixture(sel::Selector &luaData) {
             }
             polygonShape.Set(vertices.data(), vertices.size());
         }
-        if(polySelector["offset"]) {
-            float x = (float)double(polySelector["offset"][1]);
-            float y = (float)double(polySelector["offset"][2]);
-            polygonShape.m_centroid = b2Vec2(x, y);
-        }
         fixtureDef.shape = &polygonShape;
     }
-    b2Fixture* fix = b2BodyRef->CreateFixture(&fixtureDef);
+    else if(luaData["b2CircleShape"]) {
+        sel::Selector circleSelector = luaData["b2CircleShape"];
 
+        if(circleSelector["radius"]) {
+            float r = (float)double(circleSelector["radius"]);
+            circleShape.m_radius = r;
+        }
+        if(circleSelector["offset"]) {
+            float x = (float)double(circleSelector["offset"][1]);
+            float y = (float)double(circleSelector["offset"][2]);
+            circleShape.m_p = b2Vec2(x, y);
+        }
+        fixtureDef.shape = &circleShape;
+    }
+    b2Fixture* fix = b2BodyRef->CreateFixture(&fixtureDef);
 }

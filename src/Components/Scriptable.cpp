@@ -23,3 +23,19 @@ bool Scriptable::started() {
     return hasStarted;
 }
 
+void Scriptable::loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef, b2World& physicsSpace) {
+    int count = 1;
+    while(luaData[count] == true) {
+        ScriptData scriptData;
+        scriptData.parameters = "NO_PARAMETERS";
+        std::string file = luaData[count]["script"];
+        scriptData.file = file;
+        if(luaData[count]["parameters"]) {
+            std::string parameters = luaData[count]["parameters"];
+            scriptData.parameters = parameters;
+        }
+        scriptInfo.push_back(scriptData);
+        count++;
+    }
+}
+

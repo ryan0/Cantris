@@ -6,33 +6,33 @@
 -- To change this template use File | Settings | File Templates.
 --
 
-file = "spriteSheets/PlayerSpriteSheet.png"
+file = "spriteSheets/ProtaganistSpriteSheet.png"
 
 Standing = {
     frameWidth = 16,
     frameHeight = 32,
-    margin = 4,
+    margin = 16,
     row = 1,
     first = 1,
     last = 1
 }
 
 Walking = {
-    frameWidth = 32,
+    frameWidth = 16,
     frameHeight = 32,
-    row = 3,
-    margin = 4,
-    spacing = 4,
+    row = 2,
+    margin = 16,
+    spacing = 16,
     first = 1,
-    last = 6
+    last = 8
 }
 
 Running = {
     frameWidth = 32,
     frameHeight = 32,
     row = 3,
-    margin = 4,
-    spacing = 4,
+    margin = 16,
+    spacing = 16,
     first = 1,
     last = 6
 }
@@ -41,8 +41,8 @@ Jumping = {
     frameWidth = 32,
     frameHeight = 32,
     row = 3,
-    margin = 4,
-    spacing = 4,
+    margin = 16,
+    spacing = 16,
     first = 1,
     last = 1
 }

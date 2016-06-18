@@ -18,7 +18,7 @@ void Engine::render(double alpha, sf::RenderTarget &renderTarget) {
     scene->getCamera().updatePosition(alpha);
     renderTarget.setView(scene->getCamera());
     graphicsSystem.render(alpha, renderTarget, scene->getSceneGraph());
-    //graphicsSystem.renderDebug();
+    graphicsSystem.renderDebug();
 }
 
 
@@ -35,7 +35,8 @@ void Engine::initialize(GameWindow &gameWindow, AssetManager &assetManager) {
     assetManagerRef = &assetManager;
     LuaSceneLoader sceneLoader(assetManager);
     scene = (sceneLoader.loadScene("testScene.lua"));
-    //graphicsSystem.setDebugDraw(gameWindow, scene->getPhysicsSpace());
+    scene->getPhysicsSpace().SetContactListener(&physicsSystem);
+    graphicsSystem.setDebugDraw(gameWindow, scene->getPhysicsSpace());
 }
 
 void Engine::cleanup() {

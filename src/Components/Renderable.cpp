@@ -19,3 +19,9 @@ sf::Drawable* Renderable::getDrawable() {
 void Renderable::setDrawable(sf::Drawable* newDrawable) {
     drawableRef = newDrawable;
 }
+
+void Renderable::loadFromLua(sel::Selector& luaData, AssetManager& assetManagerRef, b2World& physicsSpace) {
+    if(luaData["zValue"] == true) {
+        zValue = (float)double(luaData["zValue"]);
+    }
+}

@@ -25,3 +25,14 @@ void PhysicsSystem::update(double timeStep, std::vector<std::unique_ptr<Entity>>
 void PhysicsSystem::doPhysics(double timeStep, b2World& physicsSpace) {
     physicsSpace.Step(timeStep, velocityIterations, positionIterations);
 }
+
+
+/// Called when two fixtures begin to touch.
+void PhysicsSystem::BeginContact(b2Contact* contact) {
+    std::cout<<"contact"<<std::endl;
+}
+
+/// Called when two fixtures cease to touch.
+void PhysicsSystem::EndContact(b2Contact* contact) {
+
+}
