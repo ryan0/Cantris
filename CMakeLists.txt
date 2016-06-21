@@ -1,4 +1,12 @@
 cmake_minimum_required(VERSION 2.8.0)
+
+set(CANTRIS_LIB_PATH "default-path" CACHE PATH "LOACTION of Dependancies")
+if(CANTRIS_LIB_PATH STREQUAL "default-path")
+	#default
+else()
+	set(CMAKE_PREFIX_PATH ${CANTRIS_LIB_PATH})
+endif()
+
 PROJECT(Rainsford)
 
 # Rainsford version number
